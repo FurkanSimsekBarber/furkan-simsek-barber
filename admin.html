@@ -1,32 +1,709 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Randevu Yönetimi | Furkan Şimşek Berber</title><link rel="stylesheet" href="css/style.css"></head>
-<body><main class="admin">
-<div class="admin-head"><div><p class="eyebrow">FURKAN ŞİMŞEK BERBER</p><h1>Randevu <em>Yönetimi</em></h1></div><a class="btn" href="index.html">Siteye Dön</a></div>
-<div class="admin-tools"><input id="adminDate" type="date"><button id="loadBtn" class="btn primary">Randevuları Getir</button><button id="todayBtn" class="btn">Bugün</button></div>
-<div id="adminLogin" class="admin-card"><h2>Yönetici Girişi</h2><p>Apps Script'te belirlediğin ADMIN_TOKEN'ı gir.</p><input id="token" type="password" placeholder="Yönetici şifresi"><button id="saveToken" class="btn primary">Giriş</button></div>
-<div id="adminArea" class="admin-card hidden"><div class="admin-summary" id="summary"></div><div id="appointments"></div></div></main>
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Randevu Yönetimi | Furkan Şimşek Berber</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+.admin {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.admin-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.admin-tools {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.admin-tools input {
+    padding: 12px;
+}
+
+.admin-card {
+    padding: 25px;
+    border-radius: 16px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.admin-summary {
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.appt {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+}
+
+.appt b {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.appt small {
+    line-height: 1.7;
+    opacity: .8;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.actions button {
+    border: 0;
+    padding: 9px 13px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.status {
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    background: rgba(255,255,255,.1);
+}
+
+.status.approved {
+    background: #1f8f4d;
+    color: white;
+}
+
+.status.pending {
+    background: #b7791f;
+    color: white;
+}
+
+.status.cancelled {
+    background: #a83232;
+    color: white;
+}
+
+.whatsapp-btn {
+    background: #25D366;
+    color: white;
+}
+
+.approve-btn {
+    background: #2e8b57;
+    color: white;
+}
+
+.cancel-btn {
+    background: #a83232;
+    color: white;
+}
+
+.err {
+    color: #ff6b6b;
+}
+
+.success {
+    color: #55d68a;
+}
+
+.loading {
+    opacity: .7;
+}
+
+@media (max-width: 700px) {
+
+    .admin-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .appt {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .actions {
+        width: 100%;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<main class="admin">
+
+    <div class="admin-head">
+
+        <div>
+            <p class="eyebrow">FURKAN ŞİMŞEK BERBER</p>
+            <h1>Randevu <em>Yönetimi</em></h1>
+        </div>
+
+        <a class="btn" href="index.html">
+            Siteye Dön
+        </a>
+
+    </div>
+
+
+    <!-- TARİH ARAÇLARI -->
+
+    <div class="admin-tools">
+
+        <input id="adminDate" type="date">
+
+        <button id="loadBtn" class="btn primary">
+            Randevuları Getir
+        </button>
+
+        <button id="todayBtn" class="btn">
+            Bugün
+        </button>
+
+    </div>
+
+
+    <!-- GİRİŞ -->
+
+    <div id="adminLogin" class="admin-card">
+
+        <h2>Yönetici Girişi</h2>
+
+        <p>
+            Yönetici şifrenizi girerek randevulara erişebilirsiniz.
+        </p>
+
+        <input
+            id="token"
+            type="password"
+            placeholder="Yönetici şifresi"
+        >
+
+        <button id="saveToken" class="btn primary">
+            Giriş Yap
+        </button>
+
+        <p id="loginError" class="err"></p>
+
+    </div>
+
+
+    <!-- ADMİN PANELİ -->
+
+    <div id="adminArea" class="admin-card hidden">
+
+        <div
+            class="admin-summary"
+            id="summary">
+        </div>
+
+        <div
+            id="appointments">
+        </div>
+
+    </div>
+
+</main>
+
+
 <script>
-const API="https://script.google.com/macros/s/AKfycbwg4JbCvLdtQgIQeU0mWdxnCRIvmzLAPg5RVK8RaX5GxBGb9ndyQBuM6aau_VyTcD2WKA/exec";let token=localStorage.getItem("berber_admin_token")||"";
-const date=document.querySelector("#adminDate"),login=document.querySelector("#adminLogin"),area=document.querySelector("#adminArea");
-date.value=new Date().toISOString().slice(0,10);
-function auth(){if(token){login.classList.add("hidden");area.classList.remove("hidden");load();}}
-document.querySelector("#saveToken").onclick=()=>{token=document.querySelector("#token").value.trim();localStorage.setItem("berber_admin_token",token);auth()};
-document.querySelector("#todayBtn").onclick=()=>{date.value=new Date().toISOString().slice(0,10);load()};
-document.querySelector("#loadBtn").onclick=load;
-async function load(){
- if(API.startsWith("BURAYA_")){document.querySelector("#appointments").innerHTML="<p>Önce js/booking.js ve admin.html içindeki API adresini bağlayın.</p>";return;}
- const r=await fetch(`${API}?action=list&token=${encodeURIComponent(token)}&date=${encodeURIComponent(date.value)}`),d=await r.json();
- if(!d.ok){document.querySelector("#appointments").innerHTML="<p class='err'>"+d.error+"</p>";return}
- document.querySelector("#summary").textContent=`${date.value} — ${d.rows.length} randevu`;
- const box=document.querySelector("#appointments");box.innerHTML="";
- d.rows.forEach(x=>{
-  const el=document.createElement("div");el.className="appt";
-  el.innerHTML=`<div><b>${x.time} — ${x.name}</b><small>${x.service}<br>${x.phone}${x.note?"<br>Not: "+x.note:""}</small></div><div class="actions"><span class="status">${x.status}</span><button data-id="${x.id}" data-s="Onaylandı">Onayla</button><button data-id="${x.id}" data-s="İptal">İptal</button></div>`;
-  el.querySelectorAll("button").forEach(b=>b.onclick=()=>changeStatus(b.dataset.id,b.dataset.s));box.appendChild(el);
- });
+
+const API =
+"https://script.google.com/macros/s/AKfycbwg4JbCvLdtQgIQeU0mWdxnCRIvmzLAPg5RVK8RaX5GxBGb9ndyQBuM6aau_VyTcD2WKA/exec";
+
+
+let token =
+localStorage.getItem("berber_admin_token") || "";
+
+
+const date =
+document.querySelector("#adminDate");
+
+const login =
+document.querySelector("#adminLogin");
+
+const area =
+document.querySelector("#adminArea");
+
+const appointments =
+document.querySelector("#appointments");
+
+const summary =
+document.querySelector("#summary");
+
+const loginError =
+document.querySelector("#loginError");
+
+
+// Bugünün tarihi
+
+date.value =
+new Date().toISOString().slice(0,10);
+
+
+// =====================================================
+// GİRİŞ
+// =====================================================
+
+function auth() {
+
+    if (!token) {
+
+        login.classList.remove("hidden");
+        area.classList.add("hidden");
+
+        return;
+    }
+
+
+    login.classList.add("hidden");
+    area.classList.remove("hidden");
+
+    load();
 }
-async function changeStatus(id,status){
- await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"status",token,id,status})});load();
+
+
+// =====================================================
+// GİRİŞ BUTONU
+// =====================================================
+
+document
+.querySelector("#saveToken")
+.onclick = function() {
+
+    const value =
+        document
+        .querySelector("#token")
+        .value
+        .trim();
+
+
+    if (!value) {
+
+        loginError.textContent =
+            "Lütfen yönetici şifresini girin.";
+
+        return;
+    }
+
+
+    token = value;
+
+    localStorage.setItem(
+        "berber_admin_token",
+        token
+    );
+
+
+    loginError.textContent = "";
+
+    auth();
+
+};
+
+
+// Enter ile giriş
+
+document
+.querySelector("#token")
+.addEventListener(
+    "keydown",
+    function(e) {
+
+        if (e.key === "Enter") {
+
+            document
+            .querySelector("#saveToken")
+            .click();
+
+        }
+
+    }
+);
+
+
+// =====================================================
+// BUGÜN
+// =====================================================
+
+document
+.querySelector("#todayBtn")
+.onclick = function() {
+
+    date.value =
+        new Date()
+        .toISOString()
+        .slice(0,10);
+
+    load();
+
+};
+
+
+// =====================================================
+// GETİR
+// =====================================================
+
+document
+.querySelector("#loadBtn")
+.onclick = load;
+
+
+// =====================================================
+// RANDEVULARI GETİR
+// =====================================================
+
+async function load() {
+
+    if (!token) {
+
+        return;
+    }
+
+
+    appointments.innerHTML =
+        '<p class="loading">Randevular yükleniyor...</p>';
+
+
+    summary.textContent =
+        "Yükleniyor...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${API}?action=list&token=${encodeURIComponent(token)}&date=${encodeURIComponent(date.value)}`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.ok) {
+
+            appointments.innerHTML =
+                `<p class="err">${escapeHtml(data.error || "Randevular alınamadı.")}</p>`;
+
+            summary.textContent =
+                "Randevular alınamadı.";
+
+            return;
+        }
+
+
+        renderAppointments(data.rows);
+
+
+    } catch (error) {
+
+        appointments.innerHTML =
+            `<p class="err">
+                API bağlantısı kurulamadı.
+                Google Apps Script deployment ayarlarını kontrol edin.
+            </p>`;
+
+        summary.textContent =
+            "Bağlantı hatası.";
+
+    }
+
 }
+
+
+// =====================================================
+// RANDEVULARI GÖSTER
+// =====================================================
+
+function renderAppointments(rows) {
+
+    summary.textContent =
+        `${date.value} — ${rows.length} randevu`;
+
+
+    appointments.innerHTML = "";
+
+
+    if (!rows.length) {
+
+        appointments.innerHTML =
+            "<p>Bu tarihte randevu bulunmuyor.</p>";
+
+        return;
+    }
+
+
+    rows.forEach(function(x) {
+
+        const el =
+            document.createElement("div");
+
+        el.className = "appt";
+
+
+        const statusClass =
+            getStatusClass(x.status);
+
+
+        const phone =
+            String(x.phone || "")
+            .replace(/\D/g, "");
+
+
+        const whatsappNumber =
+            phone.startsWith("90")
+            ? phone
+            : "90" + phone.replace(/^0/, "");
+
+
+        const message =
+            encodeURIComponent(
+                `Merhaba ${x.name}, Furkan Şimşek Berber'den randevunuz hakkında bilgi vermek için yazıyorum. Randevu: ${x.date} ${x.time}`
+            );
+
+
+        el.innerHTML = `
+
+            <div>
+
+                <b>
+                    ${escapeHtml(x.time)}
+                    —
+                    ${escapeHtml(x.name)}
+                </b>
+
+                <small>
+
+                    ${escapeHtml(x.service)}
+                    <br>
+
+                    📞 ${escapeHtml(x.phone)}
+
+                    ${
+                        x.note
+                        ?
+                        `<br>📝 Not: ${escapeHtml(x.note)}`
+                        :
+                        ""
+                    }
+
+                    <br>
+
+                    🎫 Randevu Kodu:
+                    ${escapeHtml(x.id)}
+
+                </small>
+
+            </div>
+
+
+            <div class="actions">
+
+                <span class="status ${statusClass}">
+                    ${escapeHtml(x.status)}
+                </span>
+
+
+                <a
+                    class="whatsapp-btn"
+                    href="https://wa.me/${whatsappNumber}?text=${message}"
+                    target="_blank"
+                    style="padding:9px 13px;border-radius:8px;text-decoration:none;"
+                >
+                    WhatsApp
+                </a>
+
+
+                <button
+                    class="approve-btn"
+                    data-id="${escapeHtml(x.id)}"
+                    data-status="Onaylandı"
+                >
+                    Onayla
+                </button>
+
+
+                <button
+                    class="cancel-btn"
+                    data-id="${escapeHtml(x.id)}"
+                    data-status="İptal"
+                >
+                    İptal
+                </button>
+
+            </div>
+
+        `;
+
+
+        el
+        .querySelectorAll("button")
+        .forEach(function(button) {
+
+            button.onclick =
+                function() {
+
+                    changeStatus(
+                        button.dataset.id,
+                        button.dataset.status
+                    );
+
+                };
+
+        });
+
+
+        appointments.appendChild(el);
+
+    });
+
+}
+
+
+// =====================================================
+// DURUM DEĞİŞTİR
+// =====================================================
+
+async function changeStatus(id, status) {
+
+    const text =
+        status === "Onaylandı"
+        ? "Bu randevuyu onaylamak istiyor musunuz?"
+        : "Bu randevuyu iptal etmek istiyor musunuz?";
+
+
+    if (!confirm(text)) {
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                API,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                        "text/plain;charset=utf-8"
+                    },
+
+                    body: JSON.stringify({
+
+                        action: "status",
+
+                        token: token,
+
+                        id: id,
+
+                        status: status
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.ok) {
+
+            alert(
+                data.error ||
+                "İşlem gerçekleştirilemedi."
+            );
+
+            return;
+        }
+
+
+        await load();
+
+
+    } catch (error) {
+
+        alert(
+            "Sunucuya bağlanırken hata oluştu."
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// DURUM RENGİ
+// =====================================================
+
+function getStatusClass(status) {
+
+    if (status === "Onaylandı") {
+        return "approved";
+    }
+
+
+    if (status === "İptal") {
+        return "cancelled";
+    }
+
+
+    return "pending";
+
+}
+
+
+// =====================================================
+// GÜVENLİ HTML
+// =====================================================
+
+function escapeHtml(value) {
+
+    return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+// =====================================================
+// BAŞLAT
+// =====================================================
+
 auth();
-</script></body></html>
+
+</script>
+
+</body>
+</html>
