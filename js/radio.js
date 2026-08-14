@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const radio = document.querySelector(".barber-radio");
-    const player = document.querySelector("#radioPlayer");
 
     const toggle = document.querySelector("#radioToggle");
     const close = document.querySelector("#radioClose");
@@ -17,19 +16,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================================
-       RADYO YAYIN ADRESİ
+       RADYO
        ========================================= */
 
     const RADIO_STREAM_URL = "https://yayin2.canliyayin.org:10959/";
 
-    /*
-     * Gerçek radyo stream adresini daha sonra
-     * buraya koyacağız.
-     */
-
 
     /* =========================================
-       PLAYER AÇ / KAPAT
+       PLAYER AÇ
        ========================================= */
 
     toggle.addEventListener("click", () => {
@@ -39,6 +33,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
+    /* =========================================
+       PLAYER KAPAT
+       ========================================= */
+
     close.addEventListener("click", () => {
 
         radio.classList.remove("active");
@@ -47,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================================
-       SES
+       BAŞLANGIÇ SESİ
        ========================================= */
 
     audio.volume = 0.7;
@@ -55,13 +53,23 @@ document.addEventListener("DOMContentLoaded", () => {
     volume.value = 0.7;
 
 
+    /* =========================================
+       SES AYARI
+       ========================================= */
+
     volume.addEventListener("input", () => {
 
-        audio.volume = volume.value;
+        const value = Number(volume.value);
 
-        if (audio.volume === 0) {
+        audio.volume = value;
+
+        if (value === 0) {
 
             muteButton.textContent = "🔇";
+
+        } else if (value < 0.5) {
+
+            muteButton.textContent = "🔉";
 
         } else {
 
@@ -73,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================================
-       MUTE
+       SESSİZE AL
        ========================================= */
 
     muteButton.addEventListener("click", () => {
@@ -92,44 +100,76 @@ document.addEventListener("DOMContentLoaded", () => {
 
     playButton.addEventListener("click", async () => {
 
+        /* Yayın adresi yoksa */
+
         if (!RADIO_STREAM_URL) {
 
             status.textContent =
-                "RADYO YAYIN ADRESİ BEKLENİYOR";
+                "RADYO YAYINI HAZIR DEĞİL";
 
             return;
 
         }
 
 
-        if (audio.paused) {
+        /* Eğer çalıyorsa durdur */
 
-            audio.src = RADIO_STREAM_URL;
-
-            try {
-
-                await audio.play();
-
-                playButton.textContent = "Ⅱ";
-
-                status.textContent = "CANLI YAYIN";
-
-                radio.classList.add("playing");
-
-            } catch (error) {
-
-                status.textContent =
-                    "YAYIN BAŞLATILAMADI";
-
-            }
-
-        } else {
+        if (!audio.paused) {
 
             audio.pause();
+
+            audio.removeAttribute("src");
+
+            audio.load();
 
             playButton.textContent = "▶";
 
             status.textContent = "DURAKLATILDI";
+
+            radio.classList.remove("playing");
+
+            return;
+
+        }
+
+
+        /* =====================================
+           YAYINI BAŞLAT
+           ===================================== */
+
+        status.textContent = "YAYINA BAĞLANILIYOR...";
+
+        playButton.textContent = "⋯";
+
+
+        audio.src = RADIO_STREAM_URL;
+
+        audio.load();
+
+
+        try {
+
+            await audio.play();
+
+            playButton.textContent = "Ⅱ";
+
+            status.textContent = "CANLI YAYIN";
+
+            radio.classList.add("playing");
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Radyo başlatma hatası:",
+                error
+            );
+
+            playButton.textContent = "▶";
+
+            status.textContent =
+                "YAYIN BAŞLATILAMADI";
 
             radio.classList.remove("playing");
 
@@ -139,18 +179,54 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =========================================
-       YAYIN HATASI
+       YAYIN BAŞLADI
        ========================================= */
 
-    audio.addEventListener("error", () => {
+    audio.addEventListener("playing", () => {
 
-        status.textContent =
-            "YAYIN BAĞLANTISI KESİLDİ";
+        playButton.textContent = "Ⅱ";
+
+        status.textContent = "CANLI YAYIN";
+
+        radio.classList.add("playing");
+
+    });
+
+
+    /* =========================================
+       YAYIN DURDU
+       ========================================= */
+
+    audio.addEventListener("pause", () => {
+
+        if (!audio.ended) {
+
+            playButton.textContent = "▶";
+
+        }
+
+    });
+
+
+    /* =========================================
+       HATA
+       ========================================= */
+
+    audio.addEventListener("error", (event) => {
+
+        console.error(
+            "Radyo bağlantı hatası:",
+            event
+        );
 
         playButton.textContent = "▶";
+
+        status.textContent =
+            "RADYO BAĞLANTISI HATASI";
 
         radio.classList.remove("playing");
 
     });
+
 
 });
