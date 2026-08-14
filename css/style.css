@@ -354,3 +354,55 @@
     }
 
 }
+/* =========================================
+   HİZMETLER - PREMIUM IŞIK SÜZÜLMESİ
+   ========================================= */
+
+#hizmetler::after {
+    content: "";
+
+    position: absolute;
+    z-index: 0;
+
+    top: 0;
+    left: -35%;
+
+    width: 45%;
+    height: 100%;
+
+    pointer-events: none;
+
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.012) 35%,
+        rgba(255, 255, 255, 0.035) 50%,
+        rgba(255, 255, 255, 0.012) 65%,
+        transparent 100%
+    );
+
+    filter: blur(35px);
+
+    transform: translateX(
+        calc(var(--light-parallax, 0px))
+    ) skewX(-12deg);
+
+    will-change: transform;
+}
+
+/* İçerik ışığın üzerinde kalsın */
+#hizmetler .section-head,
+#hizmetler .price-grid {
+    position: relative;
+    z-index: 2;
+}
+
+/* Mobilde daha sakin */
+@media (max-width: 700px) {
+
+    #hizmetler::after {
+        width: 60%;
+        filter: blur(30px);
+    }
+
+}
