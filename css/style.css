@@ -23,3 +23,31 @@
 .admin-link:hover {
     opacity: 1;
 }
+/* MENÜ İKONLARI */
+
+nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+nav a i {
+    font-size: 13px;
+    transition: transform .25s ease;
+}
+
+nav a:hover i {
+    transform: translateY(-1px);
+}
+
+nav a.active i {
+    transform: scale(1.05);
+}
+
+.admin-link {
+    opacity: .75;
+}
+
+.admin-link:hover {
+    opacity: 1;
+}
