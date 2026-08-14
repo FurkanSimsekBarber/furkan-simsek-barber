@@ -1,0 +1,1 @@
+Berber fotoğraflarını bu klasöre ekleyebilirsin. Bir sonraki aşamada galeriye gerçek görselleri bağlayacağız.
