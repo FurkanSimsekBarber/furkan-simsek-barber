@@ -348,7 +348,7 @@
 
 }
 /* =========================================
-   SABİT SOL REKLAM ŞERİDİ
+   SOL SABİT DİKEY REKLAM ŞERİDİ
    ========================================= */
 
 .side-ad-strip {
@@ -356,10 +356,10 @@
     z-index: 99999;
 
     top: 0;
-    bottom: 0;
     left: 0;
 
-    width: 58px;
+    width: 64px;
+    height: 100vh;
 
     overflow: hidden;
 
@@ -367,15 +367,13 @@
 
     border-right: 1px solid rgba(255, 255, 255, 0.14);
 
-    box-shadow:
-        4px 0 25px rgba(0, 0, 0, 0.45);
+    box-shadow: 4px 0 25px rgba(0, 0, 0, 0.45);
 
     pointer-events: none;
 }
 
 
-/* Akan alan */
-
+/* Yazıların hareket alanı */
 .side-ad-track {
     position: absolute;
 
@@ -383,66 +381,76 @@
     left: 50%;
 
     width: 100vh;
-
-    height: 58px;
+    height: 64px;
 
     display: flex;
     align-items: center;
 
-    transform-origin: center center;
+    transform-origin: center;
     transform: translateX(-50%) rotate(90deg);
 
-    animation: sideAdScroll 18s linear infinite;
+    animation: sideAdScroll 16s linear infinite;
 }
 
 
-/* Yazı */
-
+/* Her reklam yazısı */
 .side-ad-text {
     flex-shrink: 0;
 
     width: 100vh;
 
-    padding: 0 40px;
+    padding: 0 70px;
 
-    color: rgba(255, 255, 255, 0.78);
+    box-sizing: border-box;
+
+    text-align: center;
+    white-space: nowrap;
 
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
 
     letter-spacing: 0.12em;
 
-    white-space: nowrap;
+    color: rgba(255, 255, 255, 0.82);
 
-    text-align: center;
-
-    text-transform: uppercase;
+    text-shadow:
+        0 0 5px rgba(255, 255, 255, 0.12),
+        0 0 12px rgba(255, 255, 255, 0.05);
 }
 
 
-/* İkinci yazıyla kesintisiz akış */
-
+/* İki yazı arasında boşluk */
 .side-ad-text + .side-ad-text {
-    margin-left: 40px;
+    margin-left: 0;
 }
 
 
-/* Aşağı doğru sürekli hareket */
+/* =========================================
+   KESİNTİSİZ AŞAĞI AKIŞ
+   ========================================= */
 
 @keyframes sideAdScroll {
 
     from {
-        margin-top: -100vh;
+        transform:
+            translateX(-50%)
+            rotate(90deg)
+            translateY(-100vh);
     }
 
     to {
-        margin-top: 0;
+        transform:
+            translateX(-50%)
+            rotate(90deg)
+            translateY(0);
     }
 
 }
 
 
-/* Üst ve alt yumuşak karartma */
+/* =========================================
+   ÜST / ALT YUMUŞAK GEÇİŞ
+   ========================================= */
 
 .side-ad-strip::before,
 .side-ad-strip::after {
@@ -453,10 +461,9 @@
     left: 0;
 
     width: 100%;
+    height: 80px;
 
-    height: 100px;
-
-    z-index: 5;
+    z-index: 10;
 
     pointer-events: none;
 }
@@ -483,13 +490,13 @@
 
 
 /* =========================================
-   ANA İÇERİĞİ ŞERİTTEN UZAKLAŞTIR
+   ANA SAYFA İÇİN BOŞLUK
    ========================================= */
 
 @media (min-width: 901px) {
 
     body {
-        padding-left: 58px;
+        padding-left: 64px;
     }
 
 }
@@ -502,96 +509,21 @@
 @media (max-width: 900px) {
 
     .side-ad-strip {
-        width: 42px;
+        width: 44px;
     }
 
     .side-ad-track {
-        height: 42px;
+        height: 44px;
     }
 
     .side-ad-text {
-    flex-shrink: 0;
-
-    width: 100vh;
-
-    padding: 0 40px;
-
-    font-size: 12px;
-    font-weight: 700;
-
-    letter-spacing: 0.12em;
-
-    white-space: nowrap;
-    text-align: center;
-
-    text-transform: uppercase;
-
-    /* Yazı rengi */
-    color: rgba(255, 255, 255, 0.82);
-
-    /* Hafif ışık */
-    text-shadow:
-        0 0 5px rgba(255, 255, 255, 0.12),
-        0 0 12px rgba(255, 255, 255, 0.05);
-
-    position: relative;
-}
-    /* =========================================
-   YAZI ÜZERİNDE IŞIK TARAMASI
-   ========================================= */
-
-.side-ad-text::after {
-    content: "";
-
-    position: absolute;
-
-    top: -30%;
-    left: -20%;
-
-    width: 12%;
-    height: 160%;
-
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.65),
-        transparent
-    );
-
-    filter: blur(6px);
-
-    transform: skewX(-18deg);
-
-    animation: textLightSweep 4s ease-in-out infinite;
-
-    pointer-events: none;
-}
-
-
-@keyframes textLightSweep {
-
-    0% {
-        left: -20%;
-        opacity: 0;
+        font-size: 8px;
+        letter-spacing: 0.08em;
     }
 
-    20% {
-        opacity: 0.8;
-    }
-
-    50% {
-        opacity: 1;
-    }
-
-    80% {
-        opacity: 0.8;
-    }
-
-    100% {
-        left: 120%;
-        opacity: 0;
+    body {
+        padding-left: 44px;
     }
 
 }
-
 }
