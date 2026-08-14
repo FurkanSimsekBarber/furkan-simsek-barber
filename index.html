@@ -172,13 +172,21 @@ document.addEventListener("DOMContentLoaded", () => {
          * Yazının hareket mesafesi.
          * Daha düşük değer = daha sakin hareket.
          */
-        const movement = (progress - 0.5) * 180;
+     const movement = (progress - 0.5) * 180;
 
-        section.style.setProperty(
-            "--brand-parallax",
-            `${movement}px`
-        );
+/* Marka yazısı */
+section.style.setProperty(
+    "--brand-parallax",
+    `${movement}px`
+);
 
+/* Arka plan ışığı yazıdan daha yavaş hareket eder */
+const lightMovement = (progress - 0.5) * 90;
+
+section.style.setProperty(
+    "--light-parallax",
+    `${lightMovement}px`
+);
         ticking = false;
     }
 
