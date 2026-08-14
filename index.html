@@ -14,6 +14,89 @@
 </head>
 
 <body>
+<!-- =========================================
+     FURKAN ŞİMŞEK BARBER RADIO PLAYER
+     ========================================= -->
+
+<div class="barber-radio">
+
+    <!-- Aç / Kapat -->
+    <button class="radio-toggle" id="radioToggle" aria-label="Radyo oynatıcıyı aç/kapat">
+        <span class="radio-icon">♫</span>
+    </button>
+
+    <!-- Player -->
+    <div class="radio-player" id="radioPlayer">
+
+        <div class="radio-header">
+            <div class="radio-live">
+                <span class="live-dot"></span>
+                7/24 LIVE
+            </div>
+
+            <button class="radio-close" id="radioClose" aria-label="Kapat">
+                ×
+            </button>
+        </div>
+
+        <div class="radio-info">
+
+            <div class="radio-disc">
+                <span>♫</span>
+            </div>
+
+            <div class="radio-track-info">
+                <small>ŞİMDİ ÇALIYOR</small>
+                <strong id="radioSong">
+                    Furkan Şimşek Barber Radio
+                </strong>
+                <span id="radioArtist">
+                    7/24 Barber Music
+                </span>
+            </div>
+
+        </div>
+
+        <div class="radio-controls">
+
+            <button
+                id="radioPlay"
+                class="radio-play"
+                aria-label="Çal / Duraklat"
+            >
+                ▶
+            </button>
+
+            <button
+                id="radioMute"
+                class="radio-mute"
+                aria-label="Sessize al"
+            >
+                🔊
+            </button>
+
+            <input
+                id="radioVolume"
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value="0.7"
+                aria-label="Ses seviyesi"
+            >
+
+        </div>
+
+        <div class="radio-status">
+            <span id="radioStatus">RADYO HAZIR</span>
+        </div>
+
+    </div>
+
+</div>
+
+<audio id="barberRadioAudio" preload="none"></audio>
+    
 <div class="bottom-ad-strip">
     <div class="bottom-ad-track">
 
