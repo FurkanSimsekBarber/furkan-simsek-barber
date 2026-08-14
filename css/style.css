@@ -63,3 +63,21 @@
 .nav .admin-link:hover {
     opacity: 1;
 }
+/* ANA SAYFA BUTON HOVER EFEKTLERİ */
+
+.hero .btn {
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background-color .25s ease,
+        border-color .25s ease;
+}
+
+.hero .btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,.35);
+}
+
+.hero .btn:active {
+    transform: translateY(-1px) scale(.98);
+}
