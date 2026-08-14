@@ -64,74 +64,83 @@
     opacity: 1;
 }
 /* ANA SAYFA BUTON HOVER EFEKTLERİ */
-
-.hero .btn {
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease,
-        background-color .25s ease,
-        border-color .25s ease;
-}
-
-.hero .btn:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(0,0,0,.35);
-}
-
-.hero .btn:active {
-    transform: translateY(-1px) scale(.98);
-}
 /* =====================================================
-   HERO BUTONLARI - PREMIUM HOVER EFEKTİ
+   ANA SAYFA BUTONLARI - ORTAK PREMIUM EFEKT
    ===================================================== */
 
-.hero .btn {
+.hero .actions .btn,
+.hero .actions a {
     position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
+
     transition:
         transform .3s ease,
         box-shadow .3s ease,
+        filter .3s ease,
         background-color .3s ease,
-        border-color .3s ease,
-        color .3s ease;
+        border-color .3s ease;
 }
 
-/* Üzerinden geçen ışık efekti */
-.hero .btn::before {
+
+/* IŞIK EFEKTİ */
+
+.hero .actions .btn::before,
+.hero .actions a::before {
     content: "";
     position: absolute;
+
     top: 0;
-    left: -120%;
+    left: -130%;
+
     width: 80%;
     height: 100%;
+
     background: linear-gradient(
         90deg,
         transparent,
-        rgba(255,255,255,.28),
+        rgba(255,255,255,.30),
         transparent
     );
+
     transform: skewX(-20deg);
+
     transition: left .6s ease;
+
+    pointer-events: none;
 }
 
-/* Hover */
-.hero .btn:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 14px 35px rgba(0,0,0,.38);
+
+/* HOVER */
+
+.hero .actions .btn:hover,
+.hero .actions a:hover {
+    transform: translateY(-4px) !important;
+
+    box-shadow:
+        0 14px 35px rgba(0,0,0,.38);
 }
 
-/* Işık butonun üzerinden geçsin */
-.hero .btn:hover::before {
+
+/* IŞIK GEÇİŞİ */
+
+.hero .actions .btn:hover::before,
+.hero .actions a:hover::before {
     left: 140%;
 }
 
-/* Tıklama efekti */
-.hero .btn:active {
-    transform: translateY(-1px) scale(.97);
-    box-shadow: 0 6px 15px rgba(0,0,0,.25);
+
+/* TIKLAMA */
+
+.hero .actions .btn:active,
+.hero .actions a:active {
+    transform: translateY(-1px) scale(.97) !important;
+
+    box-shadow:
+        0 6px 15px rgba(0,0,0,.25);
 }
-
-
 /* =====================================================
    WHATSAPP BUTONU
    ===================================================== */
