@@ -925,28 +925,45 @@ document
    RANDEVULARI GETİR
 ========================================= */
 
-async function load() {
+async function changeStatus(id, status) {
 
-    if (!token) {
+    const text =
+        status === "Onaylandı"
+        ? "Bu randevuyu onaylamak ve müşteriye WhatsApp mesajı hazırlamak istiyor musunuz?"
+        : "Bu randevuyu iptal etmek istiyor musunuz?";
 
+
+    if (!confirm(text)) {
         return;
-
     }
-
-
-    appointments.innerHTML =
-        '<p class="loading">Randevular yükleniyor...</p>';
-
-
-    summary.textContent =
-        "Yükleniyor...";
 
 
     try {
 
         const response =
             await fetch(
-                `${API}?action=list&token=${encodeURIComponent(token)}&date=${encodeURIComponent(date.value)}`
+                API,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                        "text/plain;charset=utf-8"
+                    },
+
+                    body: JSON.stringify({
+
+                        action: "status",
+
+                        token: token,
+
+                        id: id,
+
+                        status: status
+
+                    })
+
+                }
             );
 
 
@@ -956,37 +973,85 @@ async function load() {
 
         if (!data.ok) {
 
-            appointments.innerHTML =
-                `<p class="err">${escapeHtml(data.error || "Randevular alınamadı.")}</p>`;
-
-
-            summary.textContent =
-                "Randevular alınamadı.";
-
+            alert(
+                data.error ||
+                "İşlem gerçekleştirilemedi."
+            );
 
             return;
+        }
+
+
+        // ==========================================
+        // RANDEVU ONAYLANDI
+        // WHATSAPP MESAJI HAZIRLA
+        // ==========================================
+
+        if (status === "Onaylandı") {
+
+            let phone =
+                String(data.phone || "")
+                .replace(/\D/g, "");
+
+
+            // Türkiye numarası düzenleme
+
+            if (phone.startsWith("0")) {
+                phone = "90" + phone.substring(1);
+            }
+
+            if (!phone.startsWith("90")) {
+                phone = "90" + phone;
+            }
+
+
+            const message =
+
+`Merhaba ${data.name},
+
+Furkan Şimşek Berber'den randevu talebiniz onaylanmıştır.
+
+✂️ Hizmet: ${data.service}
+📅 Tarih: ${data.date}
+⏰ Saat: ${data.time}
+
+Randevu Kodu: ${data.id}
+
+Sizi belirtilen tarih ve saatte salonumuzda bekliyoruz.
+
+Teşekkür ederiz.
+Furkan Şimşek Berber`;
+
+
+            const whatsappURL =
+                "https://wa.me/" +
+                phone +
+                "?text=" +
+                encodeURIComponent(message);
+
+
+            // WhatsApp'ı aç
+
+            window.open(
+                whatsappURL,
+                "_blank"
+            );
 
         }
 
 
-        renderAppointments(data.rows);
+        await load();
 
 
     } catch (error) {
 
-        appointments.innerHTML =
-            `<p class="err">
-                API bağlantısı kurulamadı.
-            </p>`;
-
-
-        summary.textContent =
-            "Bağlantı hatası.";
+        alert(
+            "Sunucuya bağlanırken hata oluştu."
+        );
 
     }
 
 }
-
 
 /* =========================================
    RANDEVULARI GÖSTER
