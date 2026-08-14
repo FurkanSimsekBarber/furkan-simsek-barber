@@ -375,28 +375,29 @@
 }
 
 
-/* Akan yazı alanı */
+/* Sonsuz kayan alan */
 
 .bottom-ad-track {
     display: flex;
+    align-items: center;
 
     width: max-content;
     height: 100%;
 
-    align-items: center;
+    animation: bottomAdScroll 24s linear infinite;
 
-    animation: bottomAdScroll 18s linear infinite;
+    will-change: transform;
 }
 
 
-/* Yazı */
+/* Her ayrı reklam */
 
 .bottom-ad-text {
     flex-shrink: 0;
 
-    padding: 0 70px;
+    padding: 0 100px;
 
-    color: rgba(255, 255, 255, 0.82);
+    color: rgba(255, 255, 255, 0.84);
 
     font-size: 12px;
     font-weight: 700;
@@ -413,7 +414,9 @@
 }
 
 
-/* Soldan sağa hareket */
+/* =========================================
+   SOL → SAĞ
+   ========================================= */
 
 @keyframes bottomAdScroll {
 
@@ -428,6 +431,25 @@
 }
 
 
+/* =========================================
+   MOBİL
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .bottom-ad-strip {
+        height: 44px;
+    }
+
+    .bottom-ad-text {
+        font-size: 9px;
+
+        letter-spacing: 0.09em;
+
+        padding: 0 55px;
+    }
+
+}
 /* =========================================
    ÜST / ALT HAFİF IŞIK
    ========================================= */
