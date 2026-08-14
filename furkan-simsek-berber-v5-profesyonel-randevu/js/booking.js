@@ -1,4 +1,4 @@
-const BOOKING_API_URL="BURAYA_GOOGLE_APPS_SCRIPT_URL";
+const BOOKING_API_URL="https://script.google.com/macros/s/AKfycbwg4JbCvLdtQgIQeU0mWdxnCRIvmzLAPg5RVK8RaX5GxBGb9ndyQBuM6aau_VyTcD2WKA/exec";
 const bookingForm=document.querySelector("#appointmentForm"),slotBox=document.querySelector("#timeSlots");
 const timeHidden=document.querySelector("#selectedTime"),dateInput=document.querySelector("#date"),bookingStatus=document.querySelector("#bookingStatus");
 
