@@ -348,12 +348,11 @@
 
 }
 /* =========================================
-   ALT SABİT REKLAM ŞERİDİ
+   SABİT ALT REKLAM ŞERİDİ
    ========================================= */
 
 .bottom-ad-strip {
     position: fixed;
-
     left: 0;
     bottom: 0;
 
@@ -368,51 +367,79 @@
 
     border-top: 1px solid rgba(255, 255, 255, 0.14);
 
-    box-shadow:
-        0 -5px 25px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.45);
 
+    pointer-events: auto;
 }
 
 
-/* Sonsuz kayan alan */
+/* Akan bant */
 
 .bottom-ad-track {
-    pointer-events: auto;
     display: flex;
     align-items: center;
 
     width: max-content;
     height: 100%;
 
-    animation: bottomAdScroll 24s linear infinite;
+    white-space: nowrap;
+
+    animation: bottomAdScroll 30s linear infinite;
 
     will-change: transform;
-
-}
 }
 
 
-/* Her ayrı reklam */
+/* Her reklam cümlesi */
 
 .bottom-ad-text {
-    flex-shrink: 0;
+    flex: 0 0 auto;
 
-    padding: 0 100px;
+    display: block;
 
-    color: rgba(255, 255, 255, 0.84);
+    margin: 0;
+    padding: 0 110px;
 
+    font-family: inherit;
     font-size: 12px;
     font-weight: 700;
 
+    line-height: 1;
     letter-spacing: 0.13em;
+
+    color: rgba(255, 255, 255, 0.82);
+
+    white-space: nowrap;
+}
+
+
+/* Link normal yazıyla tamamen aynı */
+
+.bottom-ad-text a {
+    display: inline;
+
+    margin: 0;
+    padding: 0;
+
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+
+    color: inherit;
 
     white-space: nowrap;
 
-    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.bottom-ad-text a:hover {
+    color: #fff;
 
     text-shadow:
-        0 0 5px rgba(255, 255, 255, 0.12),
-        0 0 12px rgba(255, 255, 255, 0.05);
+        0 0 6px rgba(255, 255, 255, 0.45),
+        0 0 14px rgba(255, 255, 255, 0.2);
 }
 
 
@@ -422,14 +449,33 @@
 
 @keyframes bottomAdScroll {
 
-    from {
+    0% {
         transform: translateX(-50%);
     }
 
-    to {
+    100% {
         transform: translateX(0);
     }
 
+}
+
+
+/* Üst ışık çizgisi */
+
+.bottom-ad-strip::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 1px;
+
+    background: rgba(255, 255, 255, 0.2);
+
+    pointer-events: none;
 }
 
 
@@ -444,11 +490,25 @@
     }
 
     .bottom-ad-text {
-        font-size: 9px;
-
-        letter-spacing: 0.09em;
-
         padding: 0 55px;
+
+        font-size: 9px;
+        letter-spacing: 0.09em;
+    }
+
+}
+
+
+/* Alt şerit içerikle çakışmasın */
+
+body {
+    padding-bottom: 52px;
+}
+
+@media (max-width: 600px) {
+
+    body {
+        padding-bottom: 44px;
     }
 
 }
