@@ -81,3 +81,87 @@
 .hero .btn:active {
     transform: translateY(-1px) scale(.98);
 }
+/* =====================================================
+   HERO BUTONLARI - PREMIUM HOVER EFEKTİ
+   ===================================================== */
+
+.hero .btn {
+    position: relative;
+    overflow: hidden;
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease,
+        background-color .3s ease,
+        border-color .3s ease,
+        color .3s ease;
+}
+
+/* Üzerinden geçen ışık efekti */
+.hero .btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 80%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.28),
+        transparent
+    );
+    transform: skewX(-20deg);
+    transition: left .6s ease;
+}
+
+/* Hover */
+.hero .btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 35px rgba(0,0,0,.38);
+}
+
+/* Işık butonun üzerinden geçsin */
+.hero .btn:hover::before {
+    left: 140%;
+}
+
+/* Tıklama efekti */
+.hero .btn:active {
+    transform: translateY(-1px) scale(.97);
+    box-shadow: 0 6px 15px rgba(0,0,0,.25);
+}
+
+
+/* =====================================================
+   WHATSAPP BUTONU
+   ===================================================== */
+
+.hero .whatsapp-btn {
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease,
+        filter .3s ease;
+}
+
+.hero .whatsapp-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 35px rgba(0,0,0,.4);
+    filter: brightness(1.08);
+}
+
+.hero .whatsapp-btn:active {
+    transform: translateY(-1px) scale(.97);
+}
+
+
+/* =====================================================
+   MOBİLDE HAFİF EFEKT
+   ===================================================== */
+
+@media (hover: none) {
+
+    .hero .btn:active {
+        transform: scale(.97);
+    }
+
+}
