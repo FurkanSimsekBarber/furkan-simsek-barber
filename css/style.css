@@ -294,66 +294,7 @@
         max-width: 260px;
     }
 }
-/* =========================================
-   HİZMETLER / FİYATLAR - MARKA PARALLAX
-   ========================================= */
 
-#hizmetler {
-    position: relative;
-    overflow: hidden;
-    isolation: isolate;
-}
-
-/* Büyük marka yazısı */
-#hizmetler::before {
-    content: "FURKAN ŞİMŞEK BARBER";
-
-    position: absolute;
-    z-index: -1;
-
-    top: 50%;
-    left: 50%;
-
-    transform: translate3d(
-        -50%,
-        calc(-50% + var(--brand-parallax, 0px)),
-        0
-    );
-
-    white-space: nowrap;
-    pointer-events: none;
-    user-select: none;
-
-    font-size: clamp(75px, 12vw, 200px);
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    line-height: 1;
-
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.045);
-
-    opacity: 0.9;
-
-    will-change: transform;
-}
-
-/* İçerik yazının üzerinde kalsın */
-#hizmetler .section-head,
-#hizmetler .price-grid {
-    position: relative;
-    z-index: 1;
-}
-
-/* Mobil */
-@media (max-width: 700px) {
-
-    #hizmetler::before {
-        font-size: 80px;
-        letter-spacing: 0.04em;
-        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.035);
-    }
-
-}
 /* =========================================
    HİZMETLER - PREMIUM IŞIK SÜZÜLMESİ
    ========================================= */
