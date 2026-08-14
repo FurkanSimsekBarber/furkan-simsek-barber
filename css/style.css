@@ -510,8 +510,31 @@
     }
 
     .side-ad-text {
-        font-size: 8px;
-        letter-spacing: 0.08em;
-    }
+    flex-shrink: 0;
+
+    width: 100vh;
+
+    padding: 0 40px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    white-space: nowrap;
+    text-align: center;
+
+    text-transform: uppercase;
+
+    /* Yazı rengi */
+    color: rgba(255, 255, 255, 0.82);
+
+    /* Hafif ışık */
+    text-shadow:
+        0 0 5px rgba(255, 255, 255, 0.12),
+        0 0 12px rgba(255, 255, 255, 0.05);
+
+    position: relative;
+}
 
 }
