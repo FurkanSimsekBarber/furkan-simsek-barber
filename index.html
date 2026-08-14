@@ -150,5 +150,61 @@
 
 <div class="lightbox" aria-hidden="true"><button class="close" aria-label="Kapat">×</button><img src="" alt=""></div>
 <script src="js/script.js"></script><script src="js/booking.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const section = document.querySelector("#hizmetler");
+
+    if (!section) return;
+
+    let ticking = false;
+
+    function updateBrandParallax() {
+
+        const rect = section.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+
+        const progress =
+            (viewportHeight - rect.top) /
+            (viewportHeight + rect.height);
+
+        /*
+         * Yazının hareket mesafesi.
+         * Daha düşük değer = daha sakin hareket.
+         */
+        const movement = (progress - 0.5) * 180;
+
+        section.style.setProperty(
+            "--brand-parallax",
+            `${movement}px`
+        );
+
+        ticking = false;
+    }
+
+    function requestParallaxUpdate() {
+
+        if (!ticking) {
+            requestAnimationFrame(updateBrandParallax);
+            ticking = true;
+        }
+
+    }
+
+    window.addEventListener(
+        "scroll",
+        requestParallaxUpdate,
+        { passive: true }
+    );
+
+    window.addEventListener(
+        "resize",
+        requestParallaxUpdate
+    );
+
+    updateBrandParallax();
+
+});
+</script>
 </body>
 </html>
