@@ -6,7 +6,7 @@
 <div id="adminLogin" class="admin-card"><h2>Yönetici Girişi</h2><p>Apps Script'te belirlediğin ADMIN_TOKEN'ı gir.</p><input id="token" type="password" placeholder="Yönetici şifresi"><button id="saveToken" class="btn primary">Giriş</button></div>
 <div id="adminArea" class="admin-card hidden"><div class="admin-summary" id="summary"></div><div id="appointments"></div></div></main>
 <script>
-const API="BURAYA_GOOGLE_APPS_SCRIPT_URL";let token=localStorage.getItem("berber_admin_token")||"";
+const API="https://script.google.com/macros/s/AKfycbwg4JbCvLdtQgIQeU0mWdxnCRIvmzLAPg5RVK8RaX5GxBGb9ndyQBuM6aau_VyTcD2WKA/exec";let token=localStorage.getItem("berber_admin_token")||"";
 const date=document.querySelector("#adminDate"),login=document.querySelector("#adminLogin"),area=document.querySelector("#adminArea");
 date.value=new Date().toISOString().slice(0,10);
 function auth(){if(token){login.classList.add("hidden");area.classList.remove("hidden");load();}}
