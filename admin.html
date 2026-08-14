@@ -1,0 +1,32 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Randevu Yönetimi | Furkan Şimşek Berber</title><link rel="stylesheet" href="css/style.css"></head>
+<body><main class="admin">
+<div class="admin-head"><div><p class="eyebrow">FURKAN ŞİMŞEK BERBER</p><h1>Randevu <em>Yönetimi</em></h1></div><a class="btn" href="index.html">Siteye Dön</a></div>
+<div class="admin-tools"><input id="adminDate" type="date"><button id="loadBtn" class="btn primary">Randevuları Getir</button><button id="todayBtn" class="btn">Bugün</button></div>
+<div id="adminLogin" class="admin-card"><h2>Yönetici Girişi</h2><p>Apps Script'te belirlediğin ADMIN_TOKEN'ı gir.</p><input id="token" type="password" placeholder="Yönetici şifresi"><button id="saveToken" class="btn primary">Giriş</button></div>
+<div id="adminArea" class="admin-card hidden"><div class="admin-summary" id="summary"></div><div id="appointments"></div></div></main>
+<script>
+const API="https://script.google.com/macros/s/AKfycbwg4JbCvLdtQgIQeU0mWdxnCRIvmzLAPg5RVK8RaX5GxBGb9ndyQBuM6aau_VyTcD2WKA/exec";let token=localStorage.getItem("berber_admin_token")||"";
+const date=document.querySelector("#adminDate"),login=document.querySelector("#adminLogin"),area=document.querySelector("#adminArea");
+date.value=new Date().toISOString().slice(0,10);
+function auth(){if(token){login.classList.add("hidden");area.classList.remove("hidden");load();}}
+document.querySelector("#saveToken").onclick=()=>{token=document.querySelector("#token").value.trim();localStorage.setItem("berber_admin_token",token);auth()};
+document.querySelector("#todayBtn").onclick=()=>{date.value=new Date().toISOString().slice(0,10);load()};
+document.querySelector("#loadBtn").onclick=load;
+async function load(){
+ if(API.startsWith("BURAYA_")){document.querySelector("#appointments").innerHTML="<p>Önce js/booking.js ve admin.html içindeki API adresini bağlayın.</p>";return;}
+ const r=await fetch(`${API}?action=list&token=${encodeURIComponent(token)}&date=${encodeURIComponent(date.value)}`),d=await r.json();
+ if(!d.ok){document.querySelector("#appointments").innerHTML="<p class='err'>"+d.error+"</p>";return}
+ document.querySelector("#summary").textContent=`${date.value} — ${d.rows.length} randevu`;
+ const box=document.querySelector("#appointments");box.innerHTML="";
+ d.rows.forEach(x=>{
+  const el=document.createElement("div");el.className="appt";
+  el.innerHTML=`<div><b>${x.time} — ${x.name}</b><small>${x.service}<br>${x.phone}${x.note?"<br>Not: "+x.note:""}</small></div><div class="actions"><span class="status">${x.status}</span><button data-id="${x.id}" data-s="Onaylandı">Onayla</button><button data-id="${x.id}" data-s="İptal">İptal</button></div>`;
+  el.querySelectorAll("button").forEach(b=>b.onclick=()=>changeStatus(b.dataset.id,b.dataset.s));box.appendChild(el);
+ });
+}
+async function changeStatus(id,status){
+ await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"status",token,id,status})});load();
+}
+auth();
+</script></body></html>
