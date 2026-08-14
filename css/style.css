@@ -40,3 +40,26 @@
 .nav .admin-link:hover {
     opacity: 1;
 }
+.nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.nav a i {
+    font-size: 12px;
+    line-height: 1;
+    transition: transform .25s ease;
+}
+
+.nav a:hover i {
+    transform: translateY(-1px);
+}
+
+.nav .admin-link {
+    opacity: .75;
+}
+
+.nav .admin-link:hover {
+    opacity: 1;
+}
