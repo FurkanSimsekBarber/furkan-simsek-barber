@@ -126,11 +126,47 @@
 
 /* IŞIK GEÇİŞİ */
 
+/* =====================================================
+   BUTON IŞIK EFEKTİ
+   ===================================================== */
+
+.hero .actions .btn::before,
+.hero .actions a::before {
+    content: "";
+    position: absolute;
+
+    top: 0;
+    left: -130%;
+
+    width: 80%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.30),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+
+    opacity: 0;
+
+    transition:
+        left .6s ease,
+        opacity .15s ease;
+
+    pointer-events: none;
+}
+
+
+/* SADECE MOUSE ÜZERİNE GELİNCE */
+
 .hero .actions .btn:hover::before,
 .hero .actions a:hover::before {
     left: 140%;
+    opacity: 1;
 }
-
 
 /* TIKLAMA */
 
