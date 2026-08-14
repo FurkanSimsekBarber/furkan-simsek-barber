@@ -536,5 +536,62 @@
 
     position: relative;
 }
+    /* =========================================
+   YAZI ÜZERİNDE IŞIK TARAMASI
+   ========================================= */
+
+.side-ad-text::after {
+    content: "";
+
+    position: absolute;
+
+    top: -30%;
+    left: -20%;
+
+    width: 12%;
+    height: 160%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.65),
+        transparent
+    );
+
+    filter: blur(6px);
+
+    transform: skewX(-18deg);
+
+    animation: textLightSweep 4s ease-in-out infinite;
+
+    pointer-events: none;
+}
+
+
+@keyframes textLightSweep {
+
+    0% {
+        left: -20%;
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0.8;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 0.8;
+    }
+
+    100% {
+        left: 120%;
+        opacity: 0;
+    }
+
+}
 
 }
