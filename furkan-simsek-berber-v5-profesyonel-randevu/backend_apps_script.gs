@@ -1,5 +1,5 @@
 const SHEET_NAME = 'Randevular';
-const ADMIN_TOKEN = 'DEGISTIR_BENIM_GIZLI_SIFREM';
+const ADMIN_TOKEN = 'FURKAN1966';
 
 // İşletme ayarları
 const OPEN_HOUR = 09;
