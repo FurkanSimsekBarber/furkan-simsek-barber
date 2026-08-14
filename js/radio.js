@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
        RADYO YAYIN ADRESİ
        ========================================= */
 
-    const RADIO_STREAM_URL = "";
+    const RADIO_STREAM_URL = "https://yayin2.canliyayin.org:10959/";
 
     /*
      * Gerçek radyo stream adresini daha sonra
