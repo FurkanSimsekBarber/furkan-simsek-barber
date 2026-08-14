@@ -406,3 +406,124 @@
     }
 
 }
+/* =========================================
+   FURKAN ŞİMŞEK BARBER
+   PREMIUM WATERMARK
+   ========================================= */
+
+#hizmetler {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* Büyük watermark */
+#hizmetler::before {
+    content: "FURKAN ŞİMŞEK BARBER";
+
+    position: absolute;
+    z-index: 0;
+
+    top: 50%;
+    left: 50%;
+
+    transform:
+        translate3d(
+            -50%,
+            calc(-50% + var(--brand-parallax, 0px)),
+            0
+        );
+
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+
+    font-size: clamp(100px, 14vw, 240px);
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    line-height: 1;
+
+    color: transparent;
+
+    /* İnce watermark çizgisi */
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.065);
+
+    opacity: 1;
+
+    will-change: transform;
+
+    transition: opacity 0.3s ease;
+}
+
+
+/* Çok hafif ışık */
+#hizmetler::after {
+    content: "";
+
+    position: absolute;
+    z-index: 0;
+
+    width: 600px;
+    height: 600px;
+
+    top: 50%;
+    left: 50%;
+
+    transform:
+        translate3d(
+            calc(-50% + var(--light-parallax, 0px)),
+            -50%,
+            0
+        );
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.035) 0%,
+            rgba(255, 255, 255, 0.015) 30%,
+            transparent 70%
+        );
+
+    filter: blur(35px);
+
+    pointer-events: none;
+
+    will-change: transform;
+}
+
+
+/* Fiyat listesinin kendisi watermark'ın üzerinde */
+#hizmetler .section-head,
+#hizmetler .price-grid {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* Kartlar watermark'ı kapatmaz */
+#hizmetler .price-card {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================
+   MOBİL
+   ========================================= */
+
+@media (max-width: 700px) {
+
+    #hizmetler::before {
+        font-size: 90px;
+        letter-spacing: 0.04em;
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.05);
+    }
+
+    #hizmetler::after {
+        width: 400px;
+        height: 400px;
+    }
+
+}
