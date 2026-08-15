@@ -1735,3 +1735,10 @@ body.cursor-hover .custom-cursor {
     }
 
 }
+@media (max-width: 850px) {
+
+    body {
+        padding-bottom: 112px;
+    }
+
+}
