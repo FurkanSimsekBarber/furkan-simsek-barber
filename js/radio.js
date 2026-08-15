@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
        RADYO
        ========================================= */
 
-    const RADIO_STREAM_URL = "http://yayin2.canliyayin.org:7424/";
+    const RADIO_STREAM_URL = "https://sslyayin.radyoyayini.com:7103/stream";
 
 
     /* =========================================
