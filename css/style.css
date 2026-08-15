@@ -1094,3 +1094,411 @@ body {
     }
 
 }
+/* =====================================================
+   PREMIUM GOOGLE REVIEWS
+   ===================================================== */
+
+.reviews-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.reviews-card {
+    margin-top: 55px;
+    padding: 35px;
+
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.015)
+        );
+
+    box-shadow: 0 25px 70px rgba(0,0,0,.25);
+}
+
+.reviews-rating {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.rating-number {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.rating-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.stars {
+    font-size: 20px;
+    letter-spacing: 4px;
+}
+
+.rating-details strong {
+    font-size: 14px;
+}
+
+.rating-details span {
+    color: rgba(255,255,255,.45);
+    font-size: 12px;
+}
+
+.reviews-divider {
+    height: 1px;
+    margin: 30px 0;
+
+    background: rgba(255,255,255,.08);
+}
+
+.reviews-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.reviews-content small {
+    color: rgba(255,255,255,.4);
+    font-size: 9px;
+    letter-spacing: .15em;
+}
+
+.reviews-content h3 {
+    margin-top: 10px;
+    font-size: 24px;
+}
+
+.google-review-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 15px 20px;
+
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 10px;
+
+    color: #fff;
+    text-decoration: none;
+
+    transition: .3s ease;
+}
+
+.google-review-btn:hover {
+    transform: translateY(-3px);
+    background: rgba(255,255,255,.08);
+}
+
+.google-review-btn span {
+    margin-left: 8px;
+}
+
+
+/* =====================================================
+   MAP
+   ===================================================== */
+
+.map-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 35px;
+    padding: 28px;
+
+    border-radius: 16px;
+
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.08);
+}
+
+.map-label {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: rgba(255,255,255,.4);
+
+    font-size: 9px;
+    letter-spacing: .15em;
+}
+
+.map-info h3 {
+    margin-bottom: 8px;
+}
+
+.map-info p {
+    color: rgba(255,255,255,.45);
+    line-height: 1.6;
+}
+
+.map-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 14px 20px;
+
+    border-radius: 9px;
+
+    background: #fff;
+    color: #080808;
+
+    text-decoration: none;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    transition: .3s ease;
+}
+
+.map-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255,255,255,.12);
+}
+
+
+/* =====================================================
+   MOBILE BOTTOM NAV
+   ===================================================== */
+
+.mobile-bottom-nav {
+    display: none;
+}
+
+
+/* =====================================================
+   CUSTOM CURSOR
+   ===================================================== */
+
+.custom-cursor {
+    position: fixed;
+
+    width: 28px;
+    height: 28px;
+
+    border: 1px solid rgba(255,255,255,.55);
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    z-index: 999999;
+
+    transform: translate(-50%, -50%);
+
+    transition:
+        width .25s ease,
+        height .25s ease,
+        border-color .25s ease,
+        background .25s ease;
+}
+
+.custom-cursor-dot {
+    position: fixed;
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #fff;
+
+    pointer-events: none;
+
+    z-index: 1000000;
+
+    transform: translate(-50%, -50%);
+}
+
+body.cursor-hover .custom-cursor {
+    width: 52px;
+    height: 52px;
+
+    border-color: rgba(255,255,255,.8);
+
+    background: rgba(255,255,255,.05);
+}
+
+
+/* =====================================================
+   SCROLL REVEAL
+   ===================================================== */
+
+[data-reveal] {
+    opacity: 0;
+
+    transform: translateY(35px);
+
+    transition:
+        opacity .8s ease,
+        transform .8s cubic-bezier(.2,.7,.2,1);
+}
+
+[data-reveal].revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* =====================================================
+   WHATSAPP
+   ===================================================== */
+
+.whatsapp-smart {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.floating-wa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 54px;
+    height: 54px;
+
+    font-size: 23px;
+
+    text-decoration: none;
+
+    border-radius: 50%;
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 768px) {
+
+    .custom-cursor,
+    .custom-cursor-dot {
+        display: none;
+    }
+
+    .reviews-card {
+        padding: 25px;
+    }
+
+    .reviews-rating {
+        gap: 18px;
+    }
+
+    .rating-number {
+        font-size: 48px;
+    }
+
+    .reviews-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .google-review-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .map-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 25px;
+    }
+
+    .map-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+
+    /* Mobil alt menü */
+
+    .mobile-bottom-nav {
+        position: fixed;
+
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+
+        left: 0;
+        bottom: 0;
+
+        width: 100%;
+        height: 64px;
+
+        z-index: 99990;
+
+        background: rgba(8,8,8,.96);
+
+        border-top: 1px solid rgba(255,255,255,.1);
+
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .mobile-bottom-nav a {
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 5px;
+
+        color: rgba(255,255,255,.45);
+
+        text-decoration: none;
+
+        font-size: 9px;
+
+        transition: .25s ease;
+    }
+
+    .mobile-bottom-nav i {
+        font-size: 15px;
+    }
+
+    .mobile-bottom-nav a:hover,
+    .mobile-bottom-nav a:active {
+        color: #fff;
+    }
+
+    .mobile-bottom-nav .mobile-booking {
+        color: #fff;
+    }
+
+    .mobile-bottom-nav .mobile-booking i {
+        width: 34px;
+        height: 34px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin-top: -17px;
+
+        border-radius: 50%;
+
+        background: #fff;
+
+        color: #080808;
+
+        box-shadow: 0 5px 20px rgba(0,0,0,.5);
+    }
+
+    body {
+        padding-bottom: 64px;
+    }
+
+}
