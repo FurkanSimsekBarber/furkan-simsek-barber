@@ -2011,3 +2011,57 @@ body.cursor-hover .custom-cursor {
     }
 
 }
+/* =====================================================
+   MOBİL ALT MENÜ + REKLAM ŞERİDİ
+   ÇAKIŞMA DÜZELTMESİ
+   ===================================================== */
+
+@media (max-width: 850px) {
+
+    /* Reklam şeridi en altta kalır */
+    .bottom-ad-strip {
+        bottom: 0;
+        height: 44px;
+    }
+
+    /* Mobil menü reklamın ÜZERİNE çıkar */
+    .mobile-bottom-nav {
+        bottom: calc(
+            44px + 10px + env(safe-area-inset-bottom)
+        );
+    }
+
+    /* İçeriğin menünün altında kalmaması */
+    body {
+        padding-bottom:
+            calc(
+                124px +
+                env(safe-area-inset-bottom)
+            );
+    }
+
+}
+
+
+/* Küçük telefonlar */
+@media (max-width: 420px) {
+
+    .bottom-ad-strip {
+        height: 44px;
+    }
+
+    .mobile-bottom-nav {
+        bottom: calc(
+            44px + 8px + env(safe-area-inset-bottom)
+        );
+    }
+
+    body {
+        padding-bottom:
+            calc(
+                120px +
+                env(safe-area-inset-bottom)
+            );
+    }
+
+}
