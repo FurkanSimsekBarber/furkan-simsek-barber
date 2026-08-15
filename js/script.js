@@ -15,3 +15,112 @@ appointmentForm?.addEventListener("submit",e=>{
   const message=`Merhaba Furkan Şimşek Berber, online randevu talebinde bulunuyorum.%0A%0AAd Soyad: ${name}%0ATelefon: ${phone}%0AHizmet: ${service}%0ATarih: ${formattedDate}%0ASaat: ${time}%0ANot: ${note}`;
   window.open(`https://wa.me/905400011966?text=${message}`,"_blank","noopener");
 });
+/* =====================================================
+   PREMIUM CURSOR
+   ===================================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const cursor = document.querySelector(".custom-cursor");
+    const dot = document.querySelector(".custom-cursor-dot");
+
+    if (cursor && dot && window.matchMedia("(pointer:fine)").matches) {
+
+        let mouseX = 0;
+        let mouseY = 0;
+
+        let cursorX = 0;
+        let cursorY = 0;
+
+        document.addEventListener("mousemove", (e) => {
+
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            dot.style.left = `${mouseX}px`;
+            dot.style.top = `${mouseY}px`;
+
+        });
+
+        function animateCursor() {
+
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+
+            cursor.style.left = `${cursorX}px`;
+            cursor.style.top = `${cursorY}px`;
+
+            requestAnimationFrame(animateCursor);
+
+        }
+
+        animateCursor();
+
+
+        document
+            .querySelectorAll("a, button, input, select, textarea")
+            .forEach((element) => {
+
+                element.addEventListener("mouseenter", () => {
+                    document.body.classList.add("cursor-hover");
+                });
+
+                element.addEventListener("mouseleave", () => {
+                    document.body.classList.remove("cursor-hover");
+                });
+
+            });
+
+    }
+
+
+    /* =================================================
+       SCROLL REVEAL
+       ================================================= */
+
+    const elements = document.querySelectorAll(
+        ".price-card, .gallery-item, .split-image, .split-copy, .about > div, .contact-grid > div, .reviews-card, .map-wrap"
+    );
+
+    elements.forEach((element, index) => {
+
+        element.setAttribute("data-reveal", "");
+
+        element.style.transitionDelay =
+            `${Math.min(index * 70, 350)}ms`;
+
+    });
+
+
+    const observer = new IntersectionObserver(
+
+        (entries) => {
+
+            entries.forEach((entry) => {
+
+                if (entry.isIntersecting) {
+
+                    entry.target.classList.add("revealed");
+
+                    observer.unobserve(entry.target);
+
+                }
+
+            });
+
+        },
+
+        {
+            threshold: 0.12
+        }
+
+    );
+
+
+    elements.forEach((element) => {
+
+        observer.observe(element);
+
+    });
+
+});
