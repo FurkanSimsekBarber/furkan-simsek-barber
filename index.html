@@ -12,7 +12,10 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-
+    
+<div class="custom-cursor"></div>
+<div class="custom-cursor-dot"></div>
+    
 <body>
     <script src="js/radio.js"></script>
 <!-- =========================================
@@ -195,16 +198,43 @@
     </button>
 
 </header>
-  <a class="logo" href="#anasayfa">FURKAN <span>ŞİMŞEK</span><small>BERBER</small></a>
-  <button class="menu-btn" aria-label="Menüyü aç">☰</button>
-  <nav class="nav">
-    <a href="#anasayfa">Ana Sayfa</a><a href="#hizmetler">Hizmetler</a>
-    <a href="#galeri">Galeri</a><a href="#hakkimizda">Hakkımızda</a><a href="#iletisim">İletişim</a>
-    <li><a href="https://furkansimsekbarber.randevunet.com">Randevu</a></li>
-   <a href="admin.html" class="admin-link">⚙ Admin</a>
-  </nav>
-</header>
+<nav class="mobile-bottom-nav">
 
+    <a href="#anasayfa">
+        <i class="fa-solid fa-house"></i>
+        <span>Ana Sayfa</span>
+    </a>
+
+    <a href="#hizmetler">
+        <i class="fa-solid fa-scissors"></i>
+        <span>Hizmetler</span>
+    </a>
+
+    <a
+        href="https://furkansimsekbarber.randevunet.com"
+        target="_blank"
+        rel="noopener"
+        class="mobile-booking"
+    >
+        <i class="fa-regular fa-calendar-check"></i>
+        <span>Randevu</span>
+    </a>
+
+    <a href="#iletisim">
+        <i class="fa-solid fa-location-dot"></i>
+        <span>İletişim</span>
+    </a>
+
+    <a
+        href="https://wa.me/905400011966"
+        target="_blank"
+        rel="noopener"
+    >
+        <i class="fa-brands fa-whatsapp"></i>
+        <span>WhatsApp</span>
+    </a>
+
+</nav>
 <main>
 <section id="anasayfa" class="hero">
   <img class="hero-photo" src="images/sac-kesimi-01.jpg" alt="Furkan Şimşek Berber saç kesimi">
@@ -233,22 +263,22 @@
 <section id="hizmetler" class="section">
   <div class="section-head"><p class="eyebrow">HİZMETLER & FİYATLAR</p><h2>Bakımın <em>detayında</em> fark var.</h2></div>
   <div class="price-grid">
-    <article class="price-card"><span>01</span><div><h3>Saç Kesimi</h3><p>Tarzına ve yüz hatlarına uygun modern kesim.</p></div><strong>500 TL</strong></article>
-    <article class="price-card"><span>02</span><div><h3>Sakal Kesimi</h3><p>Özenli şekillendirme ve yüzüne uygun sakal tasarımı.</p></div><strong>200 TL</strong></article>
-    <article class="price-card featured"><span>03</span><div><h3>Saç + Sakal Kesimi</h3><p>Baştan sona yenilenmiş, bütünlüklü görünüm.</p></div><strong>700 TL</strong></article>
-    <article class="price-card"><span>04</span><div><h3>Ağda / İp</h3><p>Detaylı yüz ve bölgesel bakım uygulaması.</p></div><strong>200 TL</strong></article>
-    <article class="price-card"><span>05</span><div><h3>Maske / Cilt Bakımı</h3><p>Cildine özel bakım ve ferahlatıcı uygulama.</p></div><strong>300 TL</strong></article>
+    <article class="price-card" data-reveal><span>01</span><div><h3>Saç Kesimi</h3><p>Tarzına ve yüz hatlarına uygun modern kesim.</p></div><strong>500 TL</strong></article>
+    <article class="price-card" data-reveal><span>02</span><div><h3>Sakal Kesimi</h3><p>Özenli şekillendirme ve yüzüne uygun sakal tasarımı.</p></div><strong>200 TL</strong></article>
+    <article class="price-card featured" data-reveal><span>03</span><div><h3>Saç + Sakal Kesimi</h3><p>Baştan sona yenilenmiş, bütünlüklü görünüm.</p></div><strong>700 TL</strong></article>
+    <article class="price-card" data-reveal><span>04</span><div><h3>Ağda / İp</h3><p>Detaylı yüz ve bölgesel bakım uygulaması.</p></div><strong>200 TL</strong></article>
+    <article class="price-card" data-reveal><span>05</span><div><h3>Maske / Cilt Bakımı</h3><p>Cildine özel bakım ve ferahlatıcı uygulama.</p></div><strong>300 TL</strong></article>
   </div>
 </section>
 
 <section id="galeri" class="section dark">
   <div class="section-head"><p class="eyebrow">ÇALIŞMALARIMIZ</p><h2>Gerçek işler,<br><em>gerçek sonuçlar.</em></h2></div>
   <div class="gallery">
-    <button class="gallery-item" data-src="images/sac-kesimi-01.jpg"><img src="images/sac-kesimi-01.jpg" alt="Saç kesimi çalışması 1"><span>Saç Kesimi</span></button>
-    <button class="gallery-item" data-src="images/sac-kesimi-02.jpg"><img src="images/sac-kesimi-02.jpg" alt="Saç kesimi çalışması 2"><span>Saç Kesimi</span></button>
-    <button class="gallery-item" data-src="images/sac-kesimi-03.jpg"><img src="images/sac-kesimi-03.jpg" alt="Saç kesimi çalışması 3"><span>Saç Kesimi</span></button>
-    <button class="gallery-item" data-src="images/sac-sakal-01.jpg"><img src="images/sac-sakal-01.jpg" alt="Saç ve sakal çalışması"><span>Saç + Sakal</span></button>
-    <button class="gallery-item wide" data-src="images/dukkan-01.webp"><img src="images/dukkan-01.webp" alt="Berber dükkanı"><span>Dükkanımız</span></button>
+    <button class="gallery-item" data-reveal data-src="images/sac-kesimi-01.jpg"><img src="images/sac-kesimi-01.jpg" alt="Saç kesimi çalışması 1"><span>Saç Kesimi</span></button>
+    <button class="gallery-item" data-reveal data-src="images/sac-kesimi-02.jpg"><img src="images/sac-kesimi-02.jpg" alt="Saç kesimi çalışması 2"><span>Saç Kesimi</span></button>
+    <button class="gallery-item" data-reveal data-src="images/sac-kesimi-03.jpg"><img src="images/sac-kesimi-03.jpg" alt="Saç kesimi çalışması 3"><span>Saç Kesimi</span></button>
+    <button class="gallery-item" data-reveal data-src="images/sac-sakal-01.jpg"><img src="images/sac-sakal-01.jpg" alt="Saç ve sakal çalışması"><span>Saç + Sakal</span></button>
+    <button class="gallery-item wide" data-reveal data-src="images/dukkan-01.webp"><img src="images/dukkan-01.webp" alt="Berber dükkanı"><span>Dükkanımız</span></button>
   </div>
 </section>
 
@@ -262,22 +292,128 @@
   <div><p>Saç kesiminden sakal tasarımına, ağda/ip uygulamasından cilt bakımına kadar erkek bakım ihtiyaçlarını tek noktada buluşturuyoruz.</p><p>Randevunu oluştur, koltuğuna geç ve gerisini bize bırak.</p></div>
 </section>
 
+<section id="yorumlar" class="reviews-section section">
+
+    <div class="section-head">
+        <p class="eyebrow">MÜŞTERİLERİMİZ NE DİYOR?</p>
+
+        <h2>
+            Gerçek deneyimler,<br>
+            <em>gerçek memnuniyet.</em>
+        </h2>
+    </div>
+
+    <div class="reviews-card">
+
+        <div class="reviews-rating">
+
+            <div class="rating-number">4.9</div>
+
+            <div class="rating-details">
+
+                <div class="stars">
+                    ★★★★★
+                </div>
+
+                <strong>Google Değerlendirmeleri</strong>
+
+                <span>
+                    77 müşteri değerlendirmesi
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="reviews-divider"></div>
+
+        <div class="reviews-content">
+
+            <div>
+                <small>GÜVENİLEN HİZMET</small>
+
+                <h3>
+                    Müşterilerimizin<br>
+                    <em>memnuniyeti</em> bizim için önemli.
+                </h3>
+            </div>
+
+            <a
+                href="https://www.google.com/maps/search/?api=1&query=MERT%20BARBER%20SALOON%20Alt%C4%B1eyl%C3%BCl%20Bal%C4%B1kesir"
+                target="_blank"
+                rel="noopener"
+                class="google-review-btn"
+            >
+                <i class="fa-brands fa-google"></i>
+                Google Yorumlarını Gör
+                <span>→</span>
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+    
 <section id="iletisim" class="contact section">
   <div class="section-head"><p class="eyebrow">İLETİŞİM & RANDEVU</p><h2>Randevunu <em>oluşturalım.</em></h2></div>
   <div class="contact-grid">
     <div><small>TELEFON</small><a href="tel:+905400011966">0540 001 19 66</a></div>
-    <div><small>WHATSAPP</small><a href="https://wa.me/905400011966" target="_blank" rel="noopener">Mesaj Gönder →</a></div>
+    <a
+    href="https://wa.me/905400011966?text=Merhaba%20Furkan%20%C5%9Eim%C5%9Fek%20Barber%27dan%20randevu%20almak%20istiyorum.%20Randevu%20i%C3%A7in%20bilgi%20alabilir%20miyim%3F"
+    class="btn ghost whatsapp-smart"
+    target="_blank"
+    rel="noopener"
+>
+    <i class="fa-brands fa-whatsapp"></i>
+    WhatsApp'tan Randevu
+</a>
     <div><small>INSTAGRAM</small><a href="https://instagram.com/furkansimsekbarber" target="_blank" rel="noopener">@furkansimsekbarber</a></div>
     <div><small>ADRES</small><p>Altıeylül Mahallesi<br>Altıeylül Sokak No: 2/1<br>MertBarberSaloon</p></div>
   </div>
-  <div class="map-wrap">
-    <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=10100%20Alt%C4%B1eyl%C3%BCl%20Mahallesi%20Alt%C4%B1eyl%C3%BCl%20Sokak%20No%202%2F1%20MertBarberSaloon" target="_blank" rel="noopener">📍 Google Maps'te Yol Tarifi Al</a>
-  </div>
+<div class="map-wrap">
+
+    <div class="map-info">
+
+        <span class="map-label">
+            <i class="fa-solid fa-location-dot"></i>
+            BİZİ BUL
+        </span>
+
+        <h3>MERT BARBER SALOON</h3>
+
+        <p>
+            Altı Eylül, Altı Eylül Sk.<br>
+            10100 Altıeylül / Balıkesir
+        </p>
+
+    </div>
+
+    <a
+        class="map-btn"
+        href="https://www.google.com/maps/search/?api=1&query=MERT%20BARBER%20SALOON%20Alt%C4%B1%20Eyl%C3%BCl%20Sk.%20Alt%C4%B1eyl%C3%BCl%20Bal%C4%B1kesir"
+        target="_blank"
+        rel="noopener"
+    >
+        <i class="fa-solid fa-diamond-turn-right"></i>
+        Yol Tarifi Al
+    </a>
+
+</div>  
+</div>
 </section>
 </main>
 
 <footer><div class="logo">FURKAN <span>ŞİMŞEK</span><small>BERBER</small></div><p>© 2026 Furkan Şimşek Berber. Tüm hakları saklıdır.</p></footer>
-<a class="floating-wa" href="https://wa.me/905400011966" target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
+<a
+    class="floating-wa"
+    href="https://wa.me/905400011966?text=Merhaba%20Furkan%20%C5%9Eim%C5%9Fek%20Barber%27dan%20randevu%20almak%20istiyorum."
+    target="_blank"
+    rel="noopener"
+    aria-label="WhatsApp"
+>
+    <i class="fa-brands fa-whatsapp"></i>
+</a>
 
 <div class="lightbox" aria-hidden="true"><button class="close" aria-label="Kapat">×</button><img src="" alt=""></div>
 <script src="js/script.js"></script><script src="js/booking.js"></script>
