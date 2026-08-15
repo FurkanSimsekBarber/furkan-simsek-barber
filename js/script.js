@@ -124,3 +124,59 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+/* =====================================================
+   MOBİL ALT MENÜ — AKTİF BÖLÜM
+   ===================================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const mobileLinks =
+        document.querySelectorAll(".mobile-bottom-nav a");
+
+    const sections = [
+        document.querySelector("#anasayfa"),
+        document.querySelector("#hizmetler"),
+        document.querySelector("#iletisim")
+    ].filter(Boolean);
+
+
+    function updateMobileMenu() {
+
+        const scrollPosition =
+            window.scrollY + window.innerHeight * 0.35;
+
+        let currentSection = "anasayfa";
+
+        sections.forEach(section => {
+
+            if (scrollPosition >= section.offsetTop) {
+                currentSection = section.id;
+            }
+
+        });
+
+
+        mobileLinks.forEach(link => {
+
+            link.classList.remove("active");
+
+            const href = link.getAttribute("href");
+
+            if (href === `#${currentSection}`) {
+                link.classList.add("active");
+            }
+
+        });
+
+    }
+
+
+    window.addEventListener(
+        "scroll",
+        updateMobileMenu,
+        { passive: true }
+    );
+
+    updateMobileMenu();
+
+});
