@@ -2378,3 +2378,444 @@ body.cursor-hover .custom-cursor {
     }
 
 }
+/* =====================================================
+   GOOGLE YORUMLARI — PREMIUM
+   ===================================================== */
+
+.reviews-section {
+    background: #080808;
+}
+
+
+.reviews-card {
+
+    position: relative;
+
+    background:
+        linear-gradient(
+            145deg,
+            #151515,
+            #0c0c0c
+        );
+
+    border: 1px solid rgba(255,255,255,.1);
+
+    padding: 38px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.25);
+}
+
+
+/* Üst ışık */
+
+.reviews-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -20%;
+
+    width: 140%;
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.3),
+            transparent
+        );
+
+    opacity: .7;
+}
+
+
+/* Rating */
+
+.reviews-rating {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 25px;
+}
+
+
+.rating-number {
+
+    font-size: clamp(55px,7vw,82px);
+
+    font-weight: 700;
+
+    line-height: .9;
+
+    letter-spacing: -4px;
+}
+
+
+.rating-details {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+
+.stars {
+
+    font-size: 19px;
+
+    letter-spacing: 3px;
+
+    color: #fff;
+
+    text-shadow:
+        0 0 12px rgba(255,255,255,.18);
+}
+
+
+.rating-details strong {
+
+    font-size: 14px;
+
+    color: #fff;
+}
+
+
+.rating-details span {
+
+    font-size: 11px;
+
+    color: #777;
+}
+
+
+/* Ayırıcı */
+
+.reviews-divider {
+
+    height: 1px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    margin: 32px 0;
+}
+
+
+/* İçerik */
+
+.reviews-content {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 40px;
+}
+
+
+.reviews-copy {
+
+    max-width: 580px;
+}
+
+
+.reviews-copy small {
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+
+    color: #777;
+
+    font-weight: 700;
+}
+
+
+.reviews-copy h3 {
+
+    margin-top: 10px;
+
+    font-size: clamp(27px,3vw,42px);
+
+    line-height: 1.08;
+
+    letter-spacing: -1px;
+}
+
+
+.reviews-copy h3 em {
+
+    font-family:
+        "Playfair Display",
+        serif;
+}
+
+
+.reviews-copy p {
+
+    margin-top: 15px;
+
+    max-width: 500px;
+
+    color: #777;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+
+/* Butonlar */
+
+.reviews-actions {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    min-width: 240px;
+}
+
+
+.google-review-btn,
+.google-write-btn {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    min-height: 50px;
+
+    padding: 14px 18px;
+
+    border: 1px solid rgba(255,255,255,.18);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    overflow: hidden;
+
+    transition:
+        transform .3s ease,
+        border-color .3s ease,
+        background .3s ease,
+        box-shadow .3s ease;
+}
+
+
+/* Ana buton */
+
+.google-review-btn {
+
+    background: #fff;
+
+    color: #111;
+
+    border-color: #fff;
+}
+
+
+.google-review-btn i {
+
+    font-size: 15px;
+}
+
+
+.google-review-btn b {
+
+    margin-left: auto;
+
+    font-size: 17px;
+
+    font-weight: 400;
+
+    transition:
+        transform .25s ease;
+}
+
+
+/* İkinci buton */
+
+.google-write-btn {
+
+    background: transparent;
+
+    color: #fff;
+}
+
+
+.google-write-btn i {
+
+    color: #aaa;
+
+    transition:
+        transform .25s ease;
+}
+
+
+/* Hover */
+
+.google-review-btn:hover,
+.google-write-btn:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.3);
+}
+
+
+.google-review-btn:hover {
+
+    background: #f1f1f1;
+}
+
+
+.google-review-btn:hover b {
+
+    transform: translateX(5px);
+}
+
+
+.google-write-btn:hover {
+
+    border-color:
+        rgba(255,255,255,.4);
+
+    background:
+        rgba(255,255,255,.04);
+}
+
+
+.google-write-btn:hover i {
+
+    transform:
+        rotate(-10deg)
+        scale(1.1);
+}
+
+
+/* Işık efekti */
+
+.google-review-btn::before,
+.google-write-btn::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 70%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.25),
+            transparent
+        );
+
+    transform: skewX(-20deg);
+
+    transition:
+        left .6s ease;
+
+    pointer-events: none;
+}
+
+
+.google-review-btn:hover::before,
+.google-write-btn:hover::before {
+
+    left: 140%;
+}
+
+
+/* =====================================================
+   MOBİL
+   ===================================================== */
+
+@media (max-width: 700px) {
+
+    .reviews-card {
+
+        padding: 26px 20px;
+
+    }
+
+
+    .reviews-rating {
+
+        gap: 18px;
+
+    }
+
+
+    .rating-number {
+
+        font-size: 58px;
+
+    }
+
+
+    .stars {
+
+        font-size: 16px;
+
+        letter-spacing: 2px;
+
+    }
+
+
+    .reviews-content {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 28px;
+
+    }
+
+
+    .reviews-actions {
+
+        width: 100%;
+
+        min-width: 0;
+
+    }
+
+
+    .google-review-btn,
+    .google-write-btn {
+
+        width: 100%;
+
+    }
+
+}
