@@ -1742,3 +1742,272 @@ body.cursor-hover .custom-cursor {
     }
 
 }
+/* =====================================================
+   MOBİL ALT MENÜ — PREMIUM
+   ===================================================== */
+
+.mobile-bottom-nav {
+    display: none;
+}
+
+@media (max-width: 850px) {
+
+    .mobile-bottom-nav {
+        position: fixed;
+        left: 10px;
+        right: 10px;
+        bottom: calc(10px + env(safe-area-inset-bottom));
+
+        height: 68px;
+
+        z-index: 99990;
+
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        align-items: center;
+
+        padding: 6px 7px;
+
+        background: rgba(15, 15, 15, .92);
+
+        border: 1px solid rgba(255,255,255,.12);
+
+        border-radius: 18px;
+
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+
+        box-shadow:
+            0 15px 45px rgba(0,0,0,.55),
+            0 0 30px rgba(255,255,255,.025);
+    }
+
+
+    /* ÜST IŞIK ÇİZGİSİ */
+
+    .mobile-bottom-nav::before {
+        content: "";
+
+        position: absolute;
+
+        top: 0;
+        left: 15%;
+        right: 15%;
+
+        height: 1px;
+
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.25),
+            transparent
+        );
+
+        pointer-events: none;
+    }
+
+
+    /* MENÜ ELEMANI */
+
+    .mobile-bottom-nav a {
+
+        position: relative;
+
+        height: 56px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 5px;
+
+        color: rgba(255,255,255,.48);
+
+        font-size: 9px;
+
+        font-weight: 700;
+
+        letter-spacing: .02em;
+
+        text-decoration: none;
+
+        transition:
+            color .25s ease,
+            transform .25s ease;
+    }
+
+
+    /* İKON */
+
+    .mobile-bottom-nav a i {
+
+        font-size: 17px;
+
+        line-height: 1;
+
+        transition:
+            transform .25s ease,
+            filter .25s ease;
+    }
+
+
+    /* HOVER */
+
+    .mobile-bottom-nav a:hover {
+
+        color: #fff;
+
+        transform: translateY(-2px);
+    }
+
+    .mobile-bottom-nav a:hover i {
+
+        transform: translateY(-2px);
+    }
+
+
+    /* AKTİF MENÜ */
+
+    .mobile-bottom-nav a.active {
+
+        color: #fff;
+    }
+
+    .mobile-bottom-nav a.active::after {
+
+        content: "";
+
+        position: absolute;
+
+        bottom: 1px;
+
+        width: 4px;
+        height: 4px;
+
+        border-radius: 50%;
+
+        background: #fff;
+
+        box-shadow:
+            0 0 8px rgba(255,255,255,.8);
+    }
+
+
+    /* =================================================
+       ORTA — RANDEVU
+       ================================================= */
+
+    .mobile-bottom-nav .mobile-booking {
+
+        width: 58px;
+        height: 58px;
+
+        margin: -22px auto 0;
+
+        border-radius: 50%;
+
+        background: #fff;
+
+        color: #080808;
+
+        border: 5px solid #080808;
+
+        box-shadow:
+            0 8px 25px rgba(0,0,0,.5);
+
+        font-size: 8px;
+
+        gap: 3px;
+    }
+
+
+    .mobile-bottom-nav .mobile-booking i {
+
+        font-size: 18px;
+    }
+
+
+    .mobile-bottom-nav .mobile-booking:hover {
+
+        color: #080808;
+
+        transform: translateY(-3px);
+
+        box-shadow:
+            0 12px 30px rgba(0,0,0,.6);
+    }
+
+
+    .mobile-bottom-nav .mobile-booking:active {
+
+        transform: scale(.94);
+    }
+
+
+    /* =================================================
+       WHATSAPP
+       ================================================= */
+
+    .mobile-bottom-nav a:last-child i {
+
+        font-size: 18px;
+    }
+
+
+    /* =================================================
+       ALT REKLAM ŞERİDİ İLE ÇAKIŞMAYI ÖNLE
+       ================================================= */
+
+    body {
+
+        padding-bottom:
+            calc(
+                88px +
+                env(safe-area-inset-bottom)
+            );
+    }
+
+}
+
+
+/* =====================================================
+   DAHA KÜÇÜK TELEFONLAR
+   ===================================================== */
+
+@media (max-width: 420px) {
+
+    .mobile-bottom-nav {
+
+        left: 7px;
+        right: 7px;
+
+        height: 64px;
+
+        border-radius: 16px;
+    }
+
+    .mobile-bottom-nav a {
+
+        height: 53px;
+
+        font-size: 8px;
+    }
+
+    .mobile-bottom-nav a i {
+
+        font-size: 16px;
+    }
+
+    .mobile-bottom-nav .mobile-booking {
+
+        width: 54px;
+        height: 54px;
+
+        margin-top: -19px;
+    }
+
+}
