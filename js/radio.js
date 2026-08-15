@@ -48,9 +48,9 @@ document.addEventListener("DOMContentLoaded", () => {
        BAŞLANGIÇ SESİ
        ========================================= */
 
-    audio.volume = 0.7;
+    audio.volume = 0.25;
 
-    volume.value = 0.7;
+    volume.value = 0.25;
 
 
     /* =========================================
