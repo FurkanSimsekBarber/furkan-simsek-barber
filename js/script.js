@@ -294,29 +294,58 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateActiveSection() {
 
-        const scrollPosition =
-            window.scrollY +
-            window.innerHeight * .35;
+    const scrollPosition =
+        window.scrollY +
+        window.innerHeight * .35;
+
+    let currentSection = "anasayfa";
+
+    sections.forEach(section => {
+
+        if (
+            scrollPosition >=
+            section.offsetTop
+        ) {
+            currentSection = section.id;
+        }
+
+    });
 
 
-        let currentSection =
-            "anasayfa";
+    /*
+     * Galeri ve Hakkımızda için
+     * Hizmetler ikonunu aktif göster.
+     */
+
+    if (
+        currentSection === "galeri" ||
+        currentSection === "hakkimizda"
+    ) {
+
+        currentSection = "hizmetler";
+
+    }
 
 
-        sections.forEach(section => {
+    mobileLinks.forEach(link => {
 
-            if (
-                scrollPosition >=
-                section.offsetTop
-            ) {
+        link.classList.remove("active");
 
-                currentSection =
-                    section.id;
+        const href =
+            link.getAttribute("href");
 
-            }
+        if (
+            href ===
+            `#${currentSection}`
+        ) {
 
-        });
+            link.classList.add("active");
 
+        }
+
+    });
+
+}
 
         mobileLinks.forEach(link => {
 
