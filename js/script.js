@@ -180,3 +180,178 @@ document.addEventListener("DOMContentLoaded", () => {
     updateMobileMenu();
 
 });
+/* =====================================================
+   PREMIUM MOBİL ALT MENÜ
+   SCROLL YÖNÜ + AKTİF BÖLÜM
+   ===================================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const mobileNav =
+        document.querySelector(".mobile-bottom-nav");
+
+    if (!mobileNav) return;
+
+
+    let lastScrollY = window.scrollY;
+
+    let ticking = false;
+
+
+    /* ---------------------------------------------
+       SCROLL YÖNÜ
+       --------------------------------------------- */
+
+    function updateMobileNav() {
+
+        const currentScrollY = window.scrollY;
+
+
+        /*
+         * Sayfa aşağı gidiyorsa
+         * menüyü hafif küçült.
+         */
+
+        if (currentScrollY > lastScrollY && currentScrollY > 120) {
+
+            mobileNav.classList.add(
+                "mobile-nav-compact"
+            );
+
+            mobileNav.classList.remove(
+                "mobile-nav-visible"
+            );
+
+        }
+
+
+        /*
+         * Sayfa yukarı gidiyorsa
+         * menüyü normale getir.
+         */
+
+        else {
+
+            mobileNav.classList.remove(
+                "mobile-nav-compact"
+            );
+
+            mobileNav.classList.add(
+                "mobile-nav-visible"
+            );
+
+        }
+
+
+        lastScrollY = currentScrollY;
+
+
+        ticking = false;
+
+    }
+
+
+    function requestMobileNavUpdate() {
+
+        if (!ticking) {
+
+            requestAnimationFrame(
+                updateMobileNav
+            );
+
+            ticking = true;
+
+        }
+
+    }
+
+
+    window.addEventListener(
+        "scroll",
+        requestMobileNavUpdate,
+        { passive: true }
+    );
+
+
+    /* ---------------------------------------------
+       AKTİF BÖLÜM
+       --------------------------------------------- */
+
+    const mobileLinks =
+        mobileNav.querySelectorAll(
+            "a[href^='#']"
+        );
+
+
+    const sections = [
+        document.querySelector("#anasayfa"),
+        document.querySelector("#hizmetler"),
+        document.querySelector("#galeri"),
+        document.querySelector("#hakkimizda"),
+        document.querySelector("#iletisim")
+    ].filter(Boolean);
+
+
+    function updateActiveSection() {
+
+        const scrollPosition =
+            window.scrollY +
+            window.innerHeight * .35;
+
+
+        let currentSection =
+            "anasayfa";
+
+
+        sections.forEach(section => {
+
+            if (
+                scrollPosition >=
+                section.offsetTop
+            ) {
+
+                currentSection =
+                    section.id;
+
+            }
+
+        });
+
+
+        mobileLinks.forEach(link => {
+
+            link.classList.remove(
+                "active"
+            );
+
+
+            const href =
+                link.getAttribute("href");
+
+
+            if (
+                href ===
+                `#${currentSection}`
+            ) {
+
+                link.classList.add(
+                    "active"
+                );
+
+            }
+
+        });
+
+    }
+
+
+    window.addEventListener(
+        "scroll",
+        updateActiveSection,
+        { passive: true }
+    );
+
+
+    updateActiveSection();
+
+});
