@@ -2065,3 +2065,316 @@ body.cursor-hover .custom-cursor {
     }
 
 }
+/* =====================================================
+   FURKAN ŞİMŞEK BARBER
+   PREMIUM MOBİL ALT MENÜ v2
+   ===================================================== */
+
+@media (max-width: 850px) {
+
+    /* ---------------------------------------------
+       MOBİL MENÜ
+       --------------------------------------------- */
+
+    .mobile-bottom-nav {
+        transform: translateY(0) scale(1);
+        transform-origin: bottom center;
+
+        opacity: 1;
+
+        transition:
+            transform .35s cubic-bezier(.22,.61,.36,1),
+            opacity .3s ease,
+            bottom .3s ease;
+
+        will-change: transform, opacity;
+    }
+
+
+    /* Sayfa aşağı inerken */
+    .mobile-bottom-nav.mobile-nav-compact {
+        transform: translateY(4px) scale(.96);
+    }
+
+
+    /* Sayfa yukarı çıkarken */
+    .mobile-bottom-nav.mobile-nav-visible {
+        transform: translateY(0) scale(1);
+    }
+
+
+    /* ---------------------------------------------
+       MENÜ İKONLARI
+       --------------------------------------------- */
+
+    .mobile-bottom-nav a i {
+        transition:
+            transform .3s cubic-bezier(.22,.61,.36,1),
+            opacity .3s ease,
+            filter .3s ease;
+    }
+
+
+    .mobile-bottom-nav a span {
+        transition:
+            transform .25s ease,
+            opacity .25s ease;
+    }
+
+
+    /* Aktif ikon */
+
+    .mobile-bottom-nav a.active i {
+        transform: translateY(-2px) scale(1.12);
+
+        filter:
+            drop-shadow(
+                0 0 7px rgba(255,255,255,.45)
+            );
+    }
+
+
+    .mobile-bottom-nav a.active span {
+        transform: translateY(-1px);
+
+        color: #fff;
+    }
+
+
+    /* Aktif nokta */
+
+    .mobile-bottom-nav a.active::after {
+        animation: mobileActiveDot .8s ease;
+    }
+
+
+    @keyframes mobileActiveDot {
+
+        0% {
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        70% {
+            opacity: 1;
+            transform: scale(1.3);
+        }
+
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+    }
+
+
+    /* ---------------------------------------------
+       RANDEVU BUTONU
+       --------------------------------------------- */
+
+    .mobile-bottom-nav .mobile-booking {
+        animation: bookingBreath 3s ease-in-out infinite;
+
+        position: relative;
+    }
+
+
+    /* Dış glow */
+
+    .mobile-bottom-nav .mobile-booking::before {
+
+        content: "";
+
+        position: absolute;
+
+        inset: -5px;
+
+        border-radius: 50%;
+
+        border: 1px solid rgba(255,255,255,.18);
+
+        opacity: .6;
+
+        animation: bookingGlow 3s ease-in-out infinite;
+
+        pointer-events: none;
+    }
+
+
+    @keyframes bookingBreath {
+
+        0%,
+        100% {
+            box-shadow:
+                0 8px 25px rgba(0,0,0,.5);
+        }
+
+        50% {
+            box-shadow:
+                0 10px 32px rgba(255,255,255,.14),
+                0 0 18px rgba(255,255,255,.08);
+        }
+
+    }
+
+
+    @keyframes bookingGlow {
+
+        0%,
+        100% {
+            transform: scale(.95);
+            opacity: .25;
+        }
+
+        50% {
+            transform: scale(1.08);
+            opacity: .7;
+        }
+
+    }
+
+
+    /* Randevu aktifse animasyonu biraz güçlendir */
+
+    .mobile-bottom-nav .mobile-booking.active {
+        animation:
+            bookingActive .9s ease-in-out infinite alternate;
+    }
+
+
+    @keyframes bookingActive {
+
+        from {
+            box-shadow:
+                0 8px 25px rgba(0,0,0,.5);
+        }
+
+        to {
+            box-shadow:
+                0 8px 30px rgba(255,255,255,.22),
+                0 0 22px rgba(255,255,255,.1);
+        }
+
+    }
+
+
+    /* ---------------------------------------------
+       DOKUNMA ANİMASYONU
+       --------------------------------------------- */
+
+    .mobile-bottom-nav a:active {
+        transform: scale(.92);
+    }
+
+
+    .mobile-bottom-nav .mobile-booking:active {
+        transform: scale(.9);
+    }
+
+
+    /* ---------------------------------------------
+       MENÜNÜN GİRİŞ ANİMASYONU
+       --------------------------------------------- */
+
+    .mobile-bottom-nav {
+        animation: mobileNavEnter .65s cubic-bezier(.22,.61,.36,1);
+    }
+
+
+    @keyframes mobileNavEnter {
+
+        from {
+            opacity: 0;
+            transform:
+                translateY(30px)
+                scale(.94);
+        }
+
+        to {
+            opacity: 1;
+            transform:
+                translateY(0)
+                scale(1);
+        }
+
+    }
+
+
+    /* ---------------------------------------------
+       REKLAM ŞERİDİ
+       --------------------------------------------- */
+
+    .bottom-ad-strip {
+        transition:
+            height .3s ease,
+            opacity .3s ease;
+    }
+
+
+    /* Menü küçüldüğünde reklam normal kalır */
+
+    .mobile-nav-compact + * {
+        pointer-events: auto;
+    }
+
+
+    /* ---------------------------------------------
+       BODY
+       --------------------------------------------- */
+
+    body {
+        padding-bottom:
+            calc(
+                124px +
+                env(safe-area-inset-bottom)
+            );
+    }
+
+}
+
+
+/* =====================================================
+   KÜÇÜK TELEFON
+   ===================================================== */
+
+@media (max-width: 420px) {
+
+    .mobile-bottom-nav {
+        transition:
+            transform .3s ease,
+            opacity .25s ease;
+    }
+
+    .mobile-bottom-nav.mobile-nav-compact {
+        transform: scale(.94);
+    }
+
+    body {
+        padding-bottom:
+            calc(
+                120px +
+                env(safe-area-inset-bottom)
+            );
+    }
+
+}
+
+
+/* =====================================================
+   HAREKET AZALTMA TERCİHİ
+   ===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .mobile-bottom-nav,
+    .mobile-bottom-nav a,
+    .mobile-bottom-nav a i,
+    .mobile-bottom-nav .mobile-booking,
+    .mobile-bottom-nav .mobile-booking::before {
+
+        animation: none !important;
+
+        transition: none !important;
+    }
+
+}
