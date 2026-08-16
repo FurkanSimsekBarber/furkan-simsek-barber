@@ -30,7 +30,7 @@ bookingForm?.addEventListener("submit",async e=>{
  if(BOOKING_API_URL.startsWith("BURAYA_")){showStatus("Randevu sistemi bağlantısı henüz yapılmadı.");return;}
  if(!timeHidden.value){showStatus("Lütfen uygun bir saat seçin.");return;}
  const f=new FormData(bookingForm),p={action:"book",name:f.get("name"),phone:f.get("phone"),service:f.get("service"),date:f.get("date"),time:timeHidden.value,note:f.get("note")||""};
- const btn=bookingForm.querySelector("button[type=submit");btn.disabled=true;btn.textContent="Randevu oluşturuluyor...";
+ const btn=bookingForm.querySelector("button[type=submit]");btn.disabled=true;btn.textContent="Randevu oluşturuluyor...";
  try{
   const r=await fetch(BOOKING_API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)}),d=await r.json();
   if(!d.ok){
