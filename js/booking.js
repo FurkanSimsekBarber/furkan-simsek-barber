@@ -4,14 +4,14 @@ const timeHidden=document.querySelector("#selectedTime"),dateInput=document.quer
 
 function showStatus(t,ok=false){if(bookingStatus){bookingStatus.textContent=t;bookingStatus.className="booking-status "+(ok?"ok":"error");}}
 function localDate(){const d=new Date(Date.now()-new Date().getTimezoneOffset()*60000);return d.toISOString().split("T")[0];}
-if(dateInput)dateInput.min=localDate();
+if(dateInput){dateInput.min=localDate();}
 
 async function loadSlots(){
  if(!dateInput||!slotBox||BOOKING_API_URL.startsWith("BURAYA_"))return;
- const date=dateInput.value; if(!date)return;
- slotBox.innerHTML="<span class='slot-loading'>Müsait saatler kontrol ediliyor...</span>"; timeHidden.value="";
+ const date=dateInput.value;if(!date)return;
+ slotBox.innerHTML="<span class='slot-loading'>Müsait saatler kontrol ediliyor...</span>";timeHidden.value="";
  try{
-  const r=await fetch(`${BOOKING_API_URL}?action=slots&date=${encodeURIComponent(date)}`),d=await r.json();
+  const r=await fetch(`${BOOKING_API_URL}?action=slots&date=${encodeURIComponent(date)}`,{cache:"no-store"}),d=await r.json();
   if(!d.ok)throw new Error(d.error);
   slotBox.innerHTML="";
   d.slots.forEach(s=>{
@@ -33,8 +33,13 @@ bookingForm?.addEventListener("submit",async e=>{
  const btn=bookingForm.querySelector("button[type=submit]");btn.disabled=true;btn.textContent="Randevu oluşturuluyor...";
  try{
   const r=await fetch(BOOKING_API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)}),d=await r.json();
-  if(!d.ok)throw new Error(d.error||"Randevu oluşturulamadı.");
-  showStatus(`Randevunuz alındı. Kod: ${d.id}`,true);bookingForm.reset();timeHidden.value="";slotBox.innerHTML="";
+  if(!d.ok){
+   await loadSlots();
+   timeHidden.value="";
+   throw new Error(d.error||"Randevu oluşturulamadı.");
+  }
+  showStatus(`Randevunuz alındı. Kod: ${d.id}. İşletme onayından sonra kesinleşecektir.`,true);
+  bookingForm.reset();timeHidden.value="";slotBox.innerHTML="";
   const msg=`Merhaba Furkan Şimşek Berber, online randevu oluşturdum.%0A%0ARandevu Kodu: ${d.id}%0AAd Soyad: ${p.name}%0ATelefon: ${p.phone}%0AHizmet: ${p.service}%0ATarih: ${p.date}%0ASaat: ${p.time}%0ANot: ${p.note||"Yok"}`;
   window.open(`https://wa.me/905400011966?text=${msg}`,"_blank","noopener");
  }catch(err){showStatus(err.message);}finally{btn.disabled=false;btn.textContent="Randevuyu Oluştur →";}
