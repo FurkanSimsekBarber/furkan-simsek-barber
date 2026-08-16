@@ -1,0 +1,35 @@
+name: Uygulama logosunu siteye ekle
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  add-logo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository'yi al
+        uses: actions/checkout@v4
+
+      - name: Uygulama ikonunu index.html'e ekle
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          old = '''            <div class="app-icon">\n                <i class="fa-brands fa-android"></i>\n            </div>'''
+          new = '''            <div class="app-icon">\n                <img\n                    src="images/uygulama-logo.png"\n                    alt="Furkan Şimşek Barber mobil uygulama logosu"\n                >\n            </div>'''
+          if old in s:
+              p.write_text(s.replace(old, new, 1), encoding='utf-8')
+          PY
+
+      - name: Değişikliği kaydet
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet || git commit -m "Mobil uygulama logosunu ekle"
+          git push
