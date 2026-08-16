@@ -5,7 +5,7 @@ const API_URL = process.env.BOOKING_API_URL;
 const PUSH_CRON_SECRET = process.env.PUSH_CRON_SECRET;
 const VAPID_PUBLIC_KEY = process.env.VAPID_PUBLIC_KEY;
 const VAPID_PRIVATE_KEY = process.env.VAPID_PRIVATE_KEY;
-const TEST_PUSH = true;
+const TEST_PUSH = String(process.env.TEST_PUSH || 'false').toLowerCase() === 'true';
 const TEST_BOOKING_ID = process.env.TEST_BOOKING_ID || '';
 
 if (!API_URL || !PUSH_CRON_SECRET || !VAPID_PUBLIC_KEY || !VAPID_PRIVATE_KEY) {
@@ -33,6 +33,15 @@ webpush.setVapidDetails(
   VAPID_PRIVATE_KEY
 );
 
+async function getDuePushes() {
+  const url = `${API_URL}?action=duepush&secret=${encodeURIComponent(PUSH_CRON_SECRET)}`;
+  const response = await fetch(url, { redirect: 'follow' });
+  if (!response.ok) throw new Error(`duepush HTTP ${response.status}`);
+  const data = await response.json();
+  if (!data.ok) throw new Error(data.error || 'duepush başarısız.');
+  return Array.isArray(data.items) ? data.items : [];
+}
+
 async function getTestPush() {
   if (!TEST_BOOKING_ID) throw new Error('TEST_BOOKING_ID tanımlı değil.');
   const url = `${API_URL}?action=testpush&secret=${encodeURIComponent(PUSH_CRON_SECRET)}&id=${encodeURIComponent(TEST_BOOKING_ID)}`;
@@ -40,11 +49,28 @@ async function getTestPush() {
   if (!response.ok) throw new Error(`testpush HTTP ${response.status}`);
   const data = await response.json();
   if (!data.ok) throw new Error(data.error || 'testpush başarısız.');
-  return [data.item];
+  return data.item ? [data.item] : [];
+}
+
+async function markPushSent(item) {
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({
+      action: 'markPushSent',
+      secret: PUSH_CRON_SECRET,
+      id: item.id,
+      kind: item.kind
+    }),
+    redirect: 'follow'
+  });
+  if (!response.ok) throw new Error(`markPushSent HTTP ${response.status}`);
+  const data = await response.json();
+  if (!data.ok) throw new Error(data.error || 'Bildirim gönderildi işareti kaydedilemedi.');
 }
 
 (async () => {
-  const items = await getTestPush();
+  const items = TEST_PUSH ? await getTestPush() : await getDuePushes();
   console.log(`Gönderilecek bildirim: ${items.length}`);
 
   for (const item of items) {
@@ -55,15 +81,22 @@ async function getTestPush() {
 
       const payload = JSON.stringify({
         title: 'Furkan Şimşek Barber',
-        body: 'TEST BİLDİRİMİ — Web Push sistemi başarıyla çalışıyor.',
-        tag: `randevu-${item.id}-test`,
-        url: '/'
+        body: TEST_PUSH
+          ? 'TEST BİLDİRİMİ — Web Push sistemi başarıyla çalışıyor.'
+          : item.body,
+        tag: `randevu-${item.id}-${item.kind || 'test'}`,
+        url: '/furkan-simsek-barber/randevu/'
       });
 
       await webpush.sendNotification(subscription, payload, { TTL: 3600 });
-      console.log(`✓ ${item.id} / test gönderildi.`);
+
+      if (!TEST_PUSH) {
+        await markPushSent(item);
+      }
+
+      console.log(`✓ ${item.id} / ${TEST_PUSH ? 'test' : item.kind} gönderildi.`);
     } catch (error) {
-      console.error(`✗ ${item.id} / test:`, error.statusCode || '', error.message);
+      console.error(`✗ ${item.id} / ${TEST_PUSH ? 'test' : (item.kind || '')}:`, error.statusCode || '', error.message);
       if (error.statusCode === 404 || error.statusCode === 410) {
         console.error('Push aboneliği artık geçerli değil; tarayıcıdan yeniden bildirim izni verilmesi gerekir.');
       }
