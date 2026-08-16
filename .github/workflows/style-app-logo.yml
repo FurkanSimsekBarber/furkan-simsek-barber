@@ -1,0 +1,37 @@
+name: Mobil uygulama logosunu biçimlendir
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  style-logo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository'yi al
+        uses: actions/checkout@v4
+
+      - name: Uygulama logo stillerini ekle
+        run: |
+          cat >> css/style.css <<'EOF'
+
+          /* MOBİL UYGULAMA LOGOSU */
+          .app-icon img{
+              width:100%;
+              height:100%;
+              display:block;
+              object-fit:cover;
+              border-radius:inherit;
+          }
+          EOF
+
+      - name: Değişikliği kaydet
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add css/style.css
+          git diff --cached --quiet || git commit -m "Mobil uygulama logosu stilini ekle"
+          git push
