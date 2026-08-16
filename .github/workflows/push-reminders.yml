@@ -1,0 +1,33 @@
+name: Randevu Push Hatırlatıcıları
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  send-reminders:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository'yi al
+        uses: actions/checkout@v4
+
+      - name: Node.js kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Web Push paketini kur
+        run: npm install --no-audit --no-fund
+
+      - name: Yaklaşan randevular için bildirim gönder
+        env:
+          BOOKING_API_URL: https://script.google.com/macros/s/AKfycbwg4JbCvLdtQgIQeU0mWdxnCRIvmzLAPg5RVK8RaX5GxBGb9ndyQBuM6aau_VyTcD2WKA/exec
+          VAPID_PUBLIC_KEY: BOY3JFfNOhdHjFG6J0E8nK2WhuAfkbUMsCtH3-XlKBPxjN8k4H6KgZ93YMkKfX9iQjoYvl6PRBXZTdn1uCp9IEo
+          PUSH_CRON_SECRET: ${{ secrets.PUSH_CRON_SECRET }}
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+        run: node scripts/send-push-reminders.js
