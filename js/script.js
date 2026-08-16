@@ -15,6 +15,13 @@ document.addEventListener("DOMContentLoaded",()=>{
     });
   }
 
+  /* INTERNAL APPOINTMENT NAVIGATION */
+  document.querySelectorAll('a[href*="furkansimsekbarber.randevunet.com"]').forEach(link=>{
+    link.removeAttribute("target");
+    link.removeAttribute("rel");
+    link.href="randevu.html";
+  });
+
   /* LIGHTBOX */
   const lightbox=document.querySelector(".lightbox");
   const lightImg=lightbox?.querySelector("img");
