@@ -4,6 +4,8 @@ const API_URL = process.env.BOOKING_API_URL;
 const PUSH_CRON_SECRET = process.env.PUSH_CRON_SECRET;
 const VAPID_PUBLIC_KEY = process.env.VAPID_PUBLIC_KEY;
 const VAPID_PRIVATE_KEY = process.env.VAPID_PRIVATE_KEY;
+const TEST_PUSH = process.env.TEST_PUSH === 'true';
+const TEST_BOOKING_ID = process.env.TEST_BOOKING_ID || '';
 
 if (!API_URL || !PUSH_CRON_SECRET || !VAPID_PUBLIC_KEY || !VAPID_PRIVATE_KEY) {
   throw new Error('Eksik GitHub Actions secret/environment değeri.');
@@ -24,6 +26,16 @@ async function getDuePushes() {
   return data.items || [];
 }
 
+async function getTestPush() {
+  if (!TEST_BOOKING_ID) throw new Error('TEST_BOOKING_ID tanımlı değil.');
+  const url = `${API_URL}?action=testpush&secret=${encodeURIComponent(PUSH_CRON_SECRET)}&id=${encodeURIComponent(TEST_BOOKING_ID)}`;
+  const response = await fetch(url, { redirect: 'follow' });
+  if (!response.ok) throw new Error(`testpush HTTP ${response.status}`);
+  const data = await response.json();
+  if (!data.ok) throw new Error(data.error || 'testpush başarısız.');
+  return [data.item];
+}
+
 async function markSent(id, kind) {
   const response = await fetch(API_URL, {
     method: 'POST',
@@ -42,7 +54,7 @@ async function markSent(id, kind) {
 }
 
 (async () => {
-  const items = await getDuePushes();
+  const items = TEST_PUSH ? await getTestPush() : await getDuePushes();
   console.log(`Gönderilecek bildirim: ${items.length}`);
 
   for (const item of items) {
@@ -53,13 +65,19 @@ async function markSent(id, kind) {
 
       const payload = JSON.stringify({
         title: 'Furkan Şimşek Barber',
-        body: item.body,
+        body: TEST_PUSH
+          ? 'TEST BİLDİRİMİ — Web Push sistemi başarıyla çalışıyor.'
+          : item.body,
         tag: `randevu-${item.id}-${item.kind}`,
         url: '/furkan-simsek-barber/randevu/'
       });
 
       await webpush.sendNotification(subscription, payload, { TTL: 3600 });
-      await markSent(item.id, item.kind);
+
+      if (!TEST_PUSH) {
+        await markSent(item.id, item.kind);
+      }
+
       console.log(`✓ ${item.id} / ${item.kind} gönderildi.`);
     } catch (error) {
       console.error(`✗ ${item.id} / ${item.kind}:`, error.statusCode || '', error.message);
