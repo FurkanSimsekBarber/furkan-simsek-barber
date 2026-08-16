@@ -1,4 +1,4 @@
-const CACHE='furkan-barber-randevu-v3';
+const CACHE='furkan-barber-randevu-v4';
 const APP=['/furkan-simsek-barber/randevu/','/furkan-simsek-barber/randevu/index.html','/furkan-simsek-barber/randevu/style.css','/furkan-simsek-barber/randevu/booking.js','/furkan-simsek-barber/randevu/pwa.js','/furkan-simsek-barber/randevu/manifest.webmanifest'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(APP).catch(()=>{})).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
