@@ -29,6 +29,6 @@ jobs:
           VAPID_PUBLIC_KEY: ${{ secrets.VAPID_PUBLIC_KEY }}
           PUSH_CRON_SECRET: ${{ secrets.PUSH_CRON_SECRET }}
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
-          TEST_PUSH: 'true'
+          TEST_PUSH: 'false'
           TEST_BOOKING_ID: ${{ secrets.TEST_BOOKING_ID }}
         run: node scripts/send-push-reminders.js
