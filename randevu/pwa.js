@@ -21,33 +21,34 @@
         const {app,messaging}=await getFirebase();
         const firebaseApp=app.initializeApp(FIREBASE_CONFIG,'barber-web');
         const messagingInstance=messaging.getMessaging(firebaseApp);
-        return {messagingModule:messaging,messagingInstance:messagingInstance};
+        return {messagingModule:messaging,messagingInstance};
       })();
     }
     return messagingPromise;
   }
 
   async function registerFirebaseToken(){
-    if(!window.isSecureContext||!('Notification'in window)||!('serviceWorker'in navigator))
+    if(!window.isSecureContext||!('Notification' in window)||!('serviceWorker' in navigator))
       return {ok:false,error:'Bu cihazda web bildirimleri desteklenmiyor.'};
 
-    const permission=await Notification.requestPermission();
-    if(permission!=='granted')return {ok:false,error:'Bildirim izni verilmedi.'};
+    let permission=Notification.permission;
+    if(permission==='default') permission=await Notification.requestPermission();
+    if(permission!=='granted') return {ok:false,error:'Bildirim izni verilmedi.'};
 
     const {messagingModule,messagingInstance}=await getMessaging();
     const registration=await navigator.serviceWorker.register('/furkan-simsek-barber/firebase-messaging-sw.js',{scope:'/furkan-simsek-barber/'});
     await navigator.serviceWorker.ready;
 
     const token=await messagingModule.getToken(messagingInstance,{vapidKey:VAPID_PUBLIC_KEY,serviceWorkerRegistration:registration});
-    if(!token)return {ok:false,error:'Firebase bildirim tokenı alınamadı.'};
-    return {ok:true,token:token};
+    if(!token) return {ok:false,error:'Firebase bildirim tokenı alınamadı.'};
+    return {ok:true,token};
   }
 
   async function saveFcmToken(token,type='customer',bookingId=''){
     try{
-      const response=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'save_fcm_token',token:token,type:type,bookingId:String(bookingId||'')})});
+      const response=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'save_fcm_token',token,type,bookingId:String(bookingId||'')})});
       const data=await response.json();
-      return data.ok?{ok:true,token:token}:{ok:false,error:data.error||'Bildirim tokenı kaydedilemedi.'};
+      return data.ok?{ok:true,token}:{ok:false,error:data.error||'Bildirim tokenı kaydedilemedi.'};
     }catch(error){
       console.error('FCM token kaydetme hatası:',error);
       return {ok:false,error:'Bildirim tokenı sunucuya kaydedilemedi.'};
@@ -61,6 +62,7 @@
       const saved=await saveFcmToken(result.token,'customer','');
       if(!saved.ok)return saved;
       localStorage.setItem('barber_fcm_token',result.token);
+      localStorage.setItem('barber_fcm_type','customer');
       return {ok:true,token:result.token};
     }catch(error){
       console.error('Bildirim kurulumu hatası:',error);
@@ -73,7 +75,11 @@
       const result=await registerFirebaseToken();
       if(!result.ok)return result;
       const saved=await saveFcmToken(result.token,'customer',bookingId);
-      if(saved.ok)localStorage.setItem('barber_fcm_token',result.token);
+      if(saved.ok){
+        localStorage.setItem('barber_fcm_token',result.token);
+        localStorage.setItem('barber_fcm_type','customer');
+        localStorage.setItem('barber_booking_id',String(bookingId||''));
+      }
       return saved;
     }catch(error){
       console.error('Randevu bildirim kurulumu hatası:',error);
@@ -81,10 +87,21 @@
     }
   }
 
+  async function setupExistingCustomerPush(){
+    const bookingId=localStorage.getItem('barber_booking_id')||'';
+    const token=localStorage.getItem('barber_fcm_token')||'';
+    if(!bookingId||!token)return;
+    if(Notification.permission!=='granted')return;
+    try{ await saveFcmToken(token,'customer',bookingId); }catch(e){ console.warn(e); }
+  }
+
   window.enableBarberNotifications=enableBarberNotifications;
   window.registerBarberPushForBooking=registerPushForBooking;
 
-  if('serviceWorker'in navigator){
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('/furkan-simsek-barber/firebase-messaging-sw.js',{scope:'/furkan-simsek-barber/'}).catch(console.error);
     navigator.serviceWorker.register('/furkan-simsek-barber/randevu/service-worker.js').catch(console.error);
   }
+
+  window.addEventListener('load',()=>{setupExistingCustomerPush();});
 })();
