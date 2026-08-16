@@ -1,7 +1,7 @@
 (()=>{
   if(!('serviceWorker'in navigator))return;
   const API_URL='https://script.google.com/macros/s/AKfycbwg4JbCvLdtQgIQeU0mWdxnCRIvmzLAPg5RVK8RaX5GxBGb9ndyQBuM6aau_VyTcD2WKA/exec';
-  const VAPID_PUBLIC_KEY='BD35AjZXzEXQHWBX0CA088xhFL_sdhEKRWKvTC0CKmjvgxyxG9dtu-WeSQzS1WUt7NvTdkGML8O2uIW3qoBZLO0';
+  const VAPID_PUBLIC_KEY='BMX27-o4fyFHuSlGiplsYv5gg-lbeYDuCVcAbPvZo94Gzapl2_KTCClTnKysGmdWHZnVzDGvVSLYe-5kxhWblQU';
   const urlBase64ToUint8Array=b=>{const p='='.repeat((4-b.length%4)%4),r=atob((b+p).replace(/-/g,'+').replace(/_/g,'/'));return Uint8Array.from([...r].map(c=>c.charCodeAt(0)))};
   async function registerPush(){
     if(!window.isSecureContext||!('PushManager'in window)||!('Notification'in window))return{ok:false,error:'Bu cihazda web push desteklenmiyor.'};
