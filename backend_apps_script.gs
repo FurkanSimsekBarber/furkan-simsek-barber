@@ -13,8 +13,12 @@ function setup() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   let sh = ss.getSheetByName(SHEET_NAME);
   if (!sh) sh = ss.insertSheet(SHEET_NAME);
-  sh.clear();
-  sh.appendRow(['ID','Oluşturulma','Ad Soyad','Telefon','Hizmet','Tarih','Saat','Not','Durum']);
+  if (sh.getLastRow() === 0) {
+    sh.appendRow(['ID','Oluşturulma','Ad Soyad','Telefon','Hizmet','Tarih','Saat','Not','Durum']);
+  } else if (sh.getRange(1, 1).getValue() !== 'ID') {
+    sh.insertRowBefore(1);
+    sh.getRange(1, 1, 1, 9).setValues([['ID','Oluşturulma','Ad Soyad','Telefon','Hizmet','Tarih','Saat','Not','Durum']]);
+  }
   sh.setFrozenRows(1);
   sh.getRange('A1:I1').setFontWeight('bold');
   return 'Hazır';
@@ -60,10 +64,10 @@ function book_(b) {
       String(r[8] || '').trim().toLowerCase() !== 'iptal'
     );
 
-    // Sunucu tarafında kilitli kontrol: iki müşteri aynı anda gönderse bile
-    // yalnızca ilk istek o saati alabilir.
+    // Kritik kontrol sunucuda ve kilit altında yapılır. Böylece aynı anda
+    // iki kişi aynı saati seçse bile yalnızca bir randevu kaydedilir.
     if (occupied) {
-      return {ok:false,error:'Bu saat az önce doldu. Lütfen başka bir saat seçin.'};
+      return {ok:false,error:'Bu saat dolu. Lütfen müsait başka bir saat seçin.'};
     }
 
     const id = Utilities.getUuid().slice(0,8).toUpperCase();
@@ -140,20 +144,49 @@ function list_(token,date) {
 function status_(b) {
   if (b.token !== ADMIN_TOKEN) return {ok:false,error:'Yetkisiz.'};
 
+  const requestedStatus = String(b.status || '').trim();
   const allowed = ['Onay Bekliyor','Onaylandı','İptal'];
-  if (allowed.indexOf(String(b.status)) === -1)
+  if (allowed.indexOf(requestedStatus) === -1)
     return {ok:false,error:'Geçersiz durum.'};
 
-  const sh = sheet_();
-  const values = sh.getDataRange().getValues();
-  for (let i = 1; i < values.length; i++) {
-    if (String(values[i][0]) === String(b.id)) {
-      sh.getRange(i+1,9).setValue(b.status);
+  const lock = LockService.getScriptLock();
+  lock.waitLock(15000);
+  try {
+    const sh = sheet_();
+    const values = sh.getDataRange().getValues();
+
+    for (let i = 1; i < values.length; i++) {
+      if (String(values[i][0]) !== String(b.id)) continue;
+
+      const targetDate = normalizeDate_(values[i][5]);
+      const targetTime = normalizeTime_(values[i][6]);
+      const currentStatus = String(values[i][8] || '').trim();
+
+      // Bir randevuyu onaylarken aynı gün/saatte başka aktif kayıt varsa
+      // ikinci randevunun onaylanmasına izin verme.
+      if (requestedStatus === 'Onaylandı') {
+        const conflict = values.slice(1).some((r, idx) => {
+          const actualRow = idx + 1;
+          if (actualRow === i) return false;
+          return normalizeDate_(r[5]) === targetDate &&
+            normalizeTime_(r[6]) === targetTime &&
+            String(r[8] || '').trim().toLowerCase() !== 'iptal';
+        });
+
+        if (conflict) {
+          return {ok:false,error:'Bu saat başka bir aktif randevu tarafından kullanılıyor. Önce diğer randevuyu iptal edin.'};
+        }
+      }
+
+      sh.getRange(i + 1, 9).setValue(requestedStatus);
       SpreadsheetApp.flush();
-      return {ok:true};
+      return {ok:true,previousStatus:currentStatus,status:requestedStatus};
     }
+
+    return {ok:false,error:'Randevu bulunamadı.'};
+  } finally {
+    lock.releaseLock();
   }
-  return {ok:false,error:'Randevu bulunamadı.'};
 }
 
 function isValidDate_(date) {
