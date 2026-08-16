@@ -16,7 +16,8 @@ jobs:
 
       - name: Uygulama logo stillerini ekle
         run: |
-          cat >> css/style.css <<'EOF'
+          if ! grep -q "MOBİL UYGULAMA LOGOSU" css/style.css; then
+            cat >> css/style.css <<'EOF'
 
           /* MOBİL UYGULAMA LOGOSU */
           .app-icon img{
@@ -27,6 +28,7 @@ jobs:
               border-radius:inherit;
           }
           EOF
+          fi
 
       - name: Değişikliği kaydet
         run: |
