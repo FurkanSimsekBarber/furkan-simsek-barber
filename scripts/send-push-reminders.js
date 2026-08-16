@@ -1,4 +1,5 @@
 const webpush = require('web-push');
+const crypto = require('crypto');
 
 const API_URL = process.env.BOOKING_API_URL;
 const PUSH_CRON_SECRET = process.env.PUSH_CRON_SECRET;
@@ -10,6 +11,21 @@ const TEST_BOOKING_ID = process.env.TEST_BOOKING_ID || '';
 if (!API_URL || !PUSH_CRON_SECRET || !VAPID_PUBLIC_KEY || !VAPID_PRIVATE_KEY) {
   throw new Error('Eksik GitHub Actions secret/environment değeri.');
 }
+
+function b64urlToBuffer(value) {
+  return Buffer.from(value.replace(/-/g, '+').replace(/_/g, '/') + '='.repeat((4 - value.length % 4) % 4), 'base64');
+}
+
+function validateVapidPair() {
+  const ecdh = crypto.createECDH('prime256v1');
+  ecdh.setPrivateKey(b64urlToBuffer(VAPID_PRIVATE_KEY));
+  const derivedPublic = ecdh.getPublicKey(null, 'uncompressed').toString('base64url');
+  if (derivedPublic !== VAPID_PUBLIC_KEY) {
+    throw new Error('VAPID_PUBLIC_KEY ile VAPID_PRIVATE_KEY aynı anahtar çiftine ait değil. GitHub Secrets değerlerini kontrol edin.');
+  }
+}
+
+validateVapidPair();
 
 webpush.setVapidDetails(
   'mailto:furkansimsek993@gmail.com',
